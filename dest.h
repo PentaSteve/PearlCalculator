@@ -5,18 +5,19 @@
 #ifndef PEARLCALCULATOR_DEST_H
 #define PEARLCALCULATOR_DEST_H
 #include <string>
+#include <list>
+#include <array>
 
 class dest {
-    double x{};
-    double z{};
-    double dist{};
-    int gt{};
-    int redtnt{};
-    int bluetnt{};
-    dest(double x, double z, double d, int g, int rt, int bt);
+public:
+    double dist;
+    int redtnt;
+    int bluetnt;
+    std::list<std::array<double,3>> GTs;
+    dest(double d, int bt, int rt, std::list<std::array<double,3>> gt);
 };
 
-std::string getFormatted();
+/*std::string getFormatted();
 
 double getX();
 
@@ -28,6 +29,6 @@ int getGt();
 
 int getRedTNT();
 
-int getBlueTNT();
+int getBlueTNT();*/
 
 #endif //PEARLCALCULATOR_DEST_H

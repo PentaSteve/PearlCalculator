@@ -129,9 +129,30 @@ void MainWindow::setupUi(QMainWindow *MainWindow){
     maxTNT = new QLineEdit(tab);
     maxTNT->setObjectName(QString::fromUtf8("maxTNT"));
     maxTNT->setGeometry(QRect(430, 32, 61, 26));
-    ListWidget420 = new QListWidget(tab);
-    ListWidget420->setObjectName(QString::fromUtf8("ListWidget420"));
-    ListWidget420->setGeometry(QRect(0, 62, 860, 508));
+    scrollArea420 = new QScrollArea(tab);
+    scrollArea420->setObjectName(QString::fromUtf8("scrollArea420"));
+    scrollArea420->setGeometry(QRect(3, 62, 850, 481));
+    scrollArea420->setWidgetResizable(true);
+    scrollAreaWidgetContents = new QWidget();
+    scrollAreaWidgetContents->setObjectName(QString::fromUtf8("scrollAreaWidgetContents"));
+    scrollAreaWidgetContents->setGeometry(QRect(0, 0, 848, 479));
+    frame = new QFrame(scrollAreaWidgetContents);
+    frame->setObjectName(QString::fromUtf8("frame"));
+    frame->setGeometry(QRect(0, 0, 841, 26));
+    frame->setFrameShape(QFrame::StyledPanel);
+    frame->setFrameShadow(QFrame::Plain);
+    frame->setLineWidth(0);
+    label_6 = new QLabel(frame);
+    label_6->setObjectName(QString::fromUtf8("label_6"));
+    label_6->setGeometry(QRect(76, 4, 761, 18));
+    label_6->setLineWidth(0);
+    pushButton_2 = new QPushButton(frame);
+    pushButton_2->setObjectName(QString::fromUtf8("pushButton_2"));
+    pushButton_2->setGeometry(QRect(0, 0, 31, 26));
+    pushButton = new QPushButton(frame);
+    pushButton->setObjectName(QString::fromUtf8("pushButton"));
+    pushButton->setGeometry(QRect(32, 0, 41, 26));
+    scrollArea420->setWidget(scrollAreaWidgetContents);
     tabWidget->addTab(tab, QString());
     tab_2 = new QWidget();
     tab_2->setObjectName(QString::fromUtf8("tab_2"));
@@ -204,20 +225,12 @@ void MainWindow::retranslateUi(QMainWindow *MainWindow) const {
 //621: 186.34881785360997
 //420: 185.34881785360997
 void MainWindow::calculateftl420() {
-    auto * maxT = new int(this->maxTNT->text().toInt());
-    auto * desX = new double(this->destX->text().toDouble());
-    auto * desZ = new double(this->destZ->text().toDouble());
-    auto * alX = new int(this->alignX->text().toInt());
-    auto * alZ = new int(this->alignZ->text().toInt());
-    if(maxT != NULL && desX != NULL && desZ != NULL && alX != NULL && alZ != NULL){
-        pearl::calculateGenericFtl(185.34881785360997F,185.5F,maxT,desX,desZ,alX,alZ);
-    } else {
-
+    int maxT = this->maxTNT->text().toInt();
+    double desX = this->destX->text().toDouble();
+    double desZ = this->destZ->text().toDouble();
+    int alX = this->alignX->text().toInt();
+    int alZ = this->alignZ->text().toInt();
+    if (maxT != NULL && desX != NULL && desZ != NULL && alX != NULL && alZ != NULL) {
+        pearl::calculateGenericFtl(185.34881785360997F, 185.5F, maxT, desX, desZ, alX, alZ,0.005F);
     }
-
-    delete maxT;
-    delete desX;
-    delete desZ;
-    delete alX;
-    delete alZ;
 }

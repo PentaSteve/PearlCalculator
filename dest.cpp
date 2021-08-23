@@ -4,12 +4,12 @@
 
 #include "dest.h"
 
-dest::dest(double x, double z, double d, int g, int rt, int bt) {
-    this->x = x;
-    this->z = z;
+#include <utility>
+
+dest::dest(double d, int bt, int rt, std::list<std::array<double,3>> gt) {
     this->dist = d;
-    this->gt = g;
     this->redtnt = rt;
     this->bluetnt = bt;
+    this->GTs = std::move(gt);
 }
 

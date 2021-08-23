@@ -19,6 +19,7 @@
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QTabWidget>
 #include <QtWidgets/QWidget>
+#include <QtWidgets/QScrollArea>
 #include <QSizePolicy>
 #include "pearl.h"
 //#include "main.h"
@@ -46,7 +47,12 @@ public:
     QLineEdit *alignZ;
     QLabel *label_5;
     QLineEdit *maxTNT;
-    QListWidget *ListWidget420;
+    QScrollArea *scrollArea420;
+    QWidget *scrollAreaWidgetContents;
+    QFrame *frame;
+    QLabel *label_6;
+    QPushButton *pushButton_2;
+    QPushButton *pushButton;
     QWidget *tab_2;
     QLineEdit *destX_621;
     QLabel *label1;
