@@ -3,7 +3,8 @@
 //
 #include <iostream>
 #include "pearl.h"
-int pearl::calculateGenericFtl(double pearlHeight, double tntHeight, double maxTNT, double destX, double destZ, int alignX, int alignZ) {
-    std::cout << "pressed" << std::endl;
+dest * pearl::calculateGenericFtl(double pearlHeight, double tntHeight, int * maxTNT, double * destX, double * destZ, int * alignX, int * alignZ) {
+    dest * dests[50];
+
     //double targetX =
 }

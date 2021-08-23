@@ -7,7 +7,7 @@
 #include "mainwindow.h"
 #include "dest.h"
 namespace pearl {
-    //dest[] calculateGenericFtl(double pearlHeight, double tntHeight, double maxTNT, double destX, double destZ, int alignX, int alignZ);
+    dest * calculateGenericFtl(double pearlHeight, double tntHeight, int * maxTNT, double * destX, double * destZ, int * alignX, int * alignZ);
 }
 
 #endif //PEARLCALCULATOR_PEARL_H

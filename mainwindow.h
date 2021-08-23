@@ -19,6 +19,7 @@
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QTabWidget>
 #include <QtWidgets/QWidget>
+#include <QSizePolicy>
 #include "pearl.h"
 //#include "main.h"
 
@@ -27,7 +28,7 @@ namespace Ui {
 } // namespace Ui
 
 
-class MainWindow : QObject
+class MainWindow : public QObject
 {
     Q_OBJECT
 public:

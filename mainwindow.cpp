@@ -6,14 +6,93 @@
 
 
 void MainWindow::setupUi(QMainWindow *MainWindow){
+
     if (MainWindow->objectName().isEmpty())
         MainWindow->setObjectName(QString::fromUtf8("MainWindow"));
-    MainWindow->resize(863, 600);
+    MainWindow->resize(861, 600);
+
+
     centralwidget = new QWidget(MainWindow);
     centralwidget->setObjectName(QString::fromUtf8("centralwidget"));
     tabWidget = new QTabWidget(centralwidget);
     tabWidget->setObjectName(QString::fromUtf8("tabWidget"));
     tabWidget->setGeometry(QRect(0, 0, 861, 601));
+    //tabWidget->setSizePolicy();
+    QPalette palette;
+    QBrush brush(QColor(255, 255, 255, 255));
+    brush.setStyle(Qt::SolidPattern);
+    palette.setBrush(QPalette::Active, QPalette::WindowText, brush);
+    QBrush brush1(QColor(32, 32, 32, 255));
+    brush1.setStyle(Qt::SolidPattern);
+    palette.setBrush(QPalette::Active, QPalette::Button, brush1);
+    QBrush brush2(QColor(48, 48, 48, 255));
+    brush2.setStyle(Qt::SolidPattern);
+    palette.setBrush(QPalette::Active, QPalette::Light, brush2);
+    QBrush brush3(QColor(40, 40, 40, 255));
+    brush3.setStyle(Qt::SolidPattern);
+    palette.setBrush(QPalette::Active, QPalette::Midlight, brush3);
+    QBrush brush4(QColor(16, 16, 16, 255));
+    brush4.setStyle(Qt::SolidPattern);
+    palette.setBrush(QPalette::Active, QPalette::Dark, brush4);
+    QBrush brush5(QColor(22, 22, 22, 255));
+    brush5.setStyle(Qt::SolidPattern);
+    palette.setBrush(QPalette::Active, QPalette::Mid, brush5);
+    palette.setBrush(QPalette::Active, QPalette::Text, brush);
+    palette.setBrush(QPalette::Active, QPalette::BrightText, brush);
+    palette.setBrush(QPalette::Active, QPalette::ButtonText, brush);
+    QBrush brush6(QColor(0, 0, 0, 255));
+    brush6.setStyle(Qt::SolidPattern);
+    palette.setBrush(QPalette::Active, QPalette::Base, brush6);
+    palette.setBrush(QPalette::Active, QPalette::Window, brush1);
+    palette.setBrush(QPalette::Active, QPalette::Shadow, brush6);
+    palette.setBrush(QPalette::Active, QPalette::AlternateBase, brush4);
+    QBrush brush7(QColor(255, 255, 220, 255));
+    brush7.setStyle(Qt::SolidPattern);
+    palette.setBrush(QPalette::Active, QPalette::ToolTipBase, brush7);
+    palette.setBrush(QPalette::Active, QPalette::ToolTipText, brush6);
+    QBrush brush8(QColor(255, 255, 255, 128));
+    brush8.setStyle(Qt::SolidPattern);
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 0)
+    palette.setBrush(QPalette::Active, QPalette::PlaceholderText, brush8);
+#endif
+    palette.setBrush(QPalette::Inactive, QPalette::WindowText, brush);
+    palette.setBrush(QPalette::Inactive, QPalette::Button, brush1);
+    palette.setBrush(QPalette::Inactive, QPalette::Light, brush2);
+    palette.setBrush(QPalette::Inactive, QPalette::Midlight, brush3);
+    palette.setBrush(QPalette::Inactive, QPalette::Dark, brush4);
+    palette.setBrush(QPalette::Inactive, QPalette::Mid, brush5);
+    palette.setBrush(QPalette::Inactive, QPalette::Text, brush);
+    palette.setBrush(QPalette::Inactive, QPalette::BrightText, brush);
+    palette.setBrush(QPalette::Inactive, QPalette::ButtonText, brush);
+    palette.setBrush(QPalette::Inactive, QPalette::Base, brush6);
+    palette.setBrush(QPalette::Inactive, QPalette::Window, brush1);
+    palette.setBrush(QPalette::Inactive, QPalette::Shadow, brush6);
+    palette.setBrush(QPalette::Inactive, QPalette::AlternateBase, brush4);
+    palette.setBrush(QPalette::Inactive, QPalette::ToolTipBase, brush7);
+    palette.setBrush(QPalette::Inactive, QPalette::ToolTipText, brush6);
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 0)
+    palette.setBrush(QPalette::Inactive, QPalette::PlaceholderText, brush8);
+#endif
+    palette.setBrush(QPalette::Disabled, QPalette::WindowText, brush4);
+    palette.setBrush(QPalette::Disabled, QPalette::Button, brush1);
+    palette.setBrush(QPalette::Disabled, QPalette::Light, brush2);
+    palette.setBrush(QPalette::Disabled, QPalette::Midlight, brush3);
+    palette.setBrush(QPalette::Disabled, QPalette::Dark, brush4);
+    palette.setBrush(QPalette::Disabled, QPalette::Mid, brush5);
+    palette.setBrush(QPalette::Disabled, QPalette::Text, brush4);
+    palette.setBrush(QPalette::Disabled, QPalette::BrightText, brush);
+    palette.setBrush(QPalette::Disabled, QPalette::ButtonText, brush4);
+    palette.setBrush(QPalette::Disabled, QPalette::Base, brush1);
+    palette.setBrush(QPalette::Disabled, QPalette::Window, brush1);
+    palette.setBrush(QPalette::Disabled, QPalette::Shadow, brush6);
+    palette.setBrush(QPalette::Disabled, QPalette::AlternateBase, brush1);
+    palette.setBrush(QPalette::Disabled, QPalette::ToolTipBase, brush7);
+    palette.setBrush(QPalette::Disabled, QPalette::ToolTipText, brush6);
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 0)
+    palette.setBrush(QPalette::Disabled, QPalette::PlaceholderText, brush8);
+#endif
+    tabWidget->setPalette(palette);
+    tabWidget->setAutoFillBackground(true);
     tab = new QWidget();
     tab->setObjectName(QString::fromUtf8("tab"));
     destX = new QLineEdit(tab);
@@ -31,7 +110,7 @@ void MainWindow::setupUi(QMainWindow *MainWindow){
     calculateButton = new QPushButton(tab);
     calculateButton->setObjectName(QString::fromUtf8("calculateButton"));
     calculateButton->setGeometry(QRect(365, 2, 80, 26));
-    connect(calculateButton, &QPushButton::released, this, calculateftl420());
+    connect(calculateButton, &QPushButton::released, this, &MainWindow::calculateftl420);
     label_3 = new QLabel(tab);
     label_3->setObjectName(QString::fromUtf8("label_3"));
     label_3->setGeometry(QRect(5, 35, 63, 18));
@@ -122,6 +201,23 @@ void MainWindow::retranslateUi(QMainWindow *MainWindow) const {
     tabWidget->setTabText(tabWidget->indexOf(tab_3), QCoreApplication::translate("MainWindow", "Autoload FTL (coming soon)", nullptr));
 }
 
+//621: 186.34881785360997
+//420: 185.34881785360997
 void MainWindow::calculateftl420() {
-    pearl::calculate420();
+    auto * maxT = new int(this->maxTNT->text().toInt());
+    auto * desX = new double(this->destX->text().toDouble());
+    auto * desZ = new double(this->destZ->text().toDouble());
+    auto * alX = new int(this->alignX->text().toInt());
+    auto * alZ = new int(this->alignZ->text().toInt());
+    if(maxT != NULL && desX != NULL && desZ != NULL && alX != NULL && alZ != NULL){
+        pearl::calculateGenericFtl(185.34881785360997F,185.5F,maxT,desX,desZ,alX,alZ);
+    } else {
+
+    }
+
+    delete maxT;
+    delete desX;
+    delete desZ;
+    delete alX;
+    delete alZ;
 }
