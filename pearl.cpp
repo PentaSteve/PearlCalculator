@@ -18,6 +18,8 @@ std::list<dest> pearl::calculateGenericFtl(double pearlHeight, double tntHeight,
     std::cout << "deltaAngle: " << deltaAngle << std::endl;
     std::array<double,3> initL = {(double) (alignX+1), pearlHeight, (double) alignZ};
 
+    std::cout << "meese" << std::endl;
+
     double angle = atan2(destC[0] - initL[0], destC[2] - initL[2]);
     std::cout << "angle: " << angle << std::endl;
     int quadrant = getQuadrant(angle);
@@ -37,10 +39,13 @@ std::list<dest> pearl::calculateGenericFtl(double pearlHeight, double tntHeight,
             std::cout << "testing " << vAngle << std::endl;
 
             if(vAngle > angle - deltaAngle && vAngle < angle+deltaAngle){
-                std::cout << "testing " << fir << ", " << sec << std::endl;
+                std::cout << "passed " << fir << ", " << sec << std::endl;
                 vector = add(vector,{0,initM,0});
+                std::cout << "vecadd " << fir << ", " << sec << std::endl;
                 std::list<std::array<double,3>> gameticks = getGt(initL, vector, destC);
+                std::cout << "getgt " << fir << ", " << sec << std::endl;
                 dests.emplace_back(pythag(gameticks.front()[0],gameticks.front()[2],destC[0],destC[2]),fir,sec,gameticks);
+                std::cout << "done " << fir << ", " << sec << std::endl;
             }
         }
     }
@@ -158,8 +163,10 @@ std::list<std::array<double,3>> getGt(std::array<double,3> initL, std::array<dou
     double lowestDistance = pythag(initL[0],initL[2],dest[0],dest[2]);
     std::list<std::array<double,3>> list;
     list.push_back(initL);
+    std::array<double,3> initL2 = initL2;
+
     while(true){
-        std::array<double,3> initL2 = add(initL,vec);
+        std::array<double,3> initL2 = add(initL2,vec);
         double newDist = pythag(initL2[0],initL2[2],dest[0],dest[2]);
         if(newDist>lowestDistance){
             return list;

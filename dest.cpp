@@ -6,6 +6,10 @@
 
 #include <utility>
 #include <sstream>
+#include <string>
+#include <cstring>
+#include <iostream>
+
 
 dest::dest(double d, int bt, int rt, std::list<std::array<double,3>> gt) {
     this->dist = d;
@@ -14,8 +18,8 @@ dest::dest(double d, int bt, int rt, std::list<std::array<double,3>> gt) {
     this->GTs = std::move(gt);
 }
 
-char * dest::formatString(){
+std::string dest::formatString(){
     std::ostringstream ss;
     ss << "Distance: " << this->dist << " (Tick: " << this->GTs.size() << ")  TNT: " << this->redtnt+this->bluetnt << " (Blue: " << this->bluetnt << ", Red: " << this->redtnt << ")";
-    return const_cast<char *>(ss.str().c_str());
+    return ss.str();
 }

@@ -3,6 +3,7 @@
 //
 
 #include <iostream>
+#include <QVBoxLayout>
 #include "mainwindow.h"
 
 
@@ -130,14 +131,24 @@ void MainWindow::setupUi(QMainWindow *MainWindow){
     maxTNT = new QLineEdit(tab);
     maxTNT->setObjectName(QString::fromUtf8("maxTNT"));
     maxTNT->setGeometry(QRect(430, 32, 61, 26));
+
+    //temporary for testing purposes
+    destX->setText("22");
+    destZ->setText("22");
+    alignX->setText("1");
+    alignZ->setText("1");
+    maxTNT->setText("11");
+
     scrollArea420 = new QScrollArea(tab);
     scrollArea420->setObjectName(QString::fromUtf8("scrollArea420"));
     scrollArea420->setGeometry(QRect(3, 62, 850, 481));
+    scrollArea420->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+    scrollArea420->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     scrollArea420->setWidgetResizable(true);
-    scrollAreaWidgetContents = new QWidget();
+    /*scrollAreaWidgetContents = new QWidget();
     scrollAreaWidgetContents->setObjectName(QString::fromUtf8("scrollAreaWidgetContents"));
     scrollAreaWidgetContents->setGeometry(QRect(0, 0, 848, 479));
-    scrollArea420->setWidget(scrollAreaWidgetContents);
+    scrollArea420->setWidget(scrollAreaWidgetContents);*/
     tabWidget->addTab(tab, QString());
     tab_2 = new QWidget();
     tab_2->setObjectName(QString::fromUtf8("tab_2"));
@@ -189,7 +200,7 @@ void MainWindow::setupUi(QMainWindow *MainWindow){
 }
 
 void MainWindow::retranslateUi(QMainWindow *MainWindow) const {
-    MainWindow->setWindowTitle(QCoreApplication::translate("MainWindow", "MainWindow", nullptr));
+    MainWindow->setWindowTitle(QCoreApplication::translate("MainWindow", "Pearl Calculator", nullptr));
     label->setText(QCoreApplication::translate("MainWindow", "Dest X:", nullptr));
     label_2->setText(QCoreApplication::translate("MainWindow", "Dest Z:", nullptr));
     calculateButton->setText(QCoreApplication::translate("MainWindow", "Calculate", nullptr));
@@ -218,13 +229,28 @@ void MainWindow::calculateftl420() {
     if (maxT != 0.0 && desX != 0.0 && desZ != 0.0 && alX != NULL && alZ != NULL) {
         std::list<dest> dests = pearl::calculateGenericFtl(185.34881785360997, 185.5F, maxT, desX, desZ, alX, alZ,0.5100841893612624);
         std::cout << dests.size() << std::endl;
+        QWidget *widget = new QWidget();
+        widget->setObjectName(QString::fromUtf8("scrollAreaWidgetContents"));
+        widget->setGeometry(QRect(0, 0, 848, 479));
+        QVBoxLayout *verticalLayout_2 = new QVBoxLayout(widget);
+        verticalLayout_2->setObjectName(QString::fromUtf8("verticalLayout_2"));
+        int i = 0;
+        for(dest Dest : dests){
+            //std::cout << Dest.formatString() << std::endl;
+            addItem(Dest, widget, i, verticalLayout_2);
+            i++;
+        }
+        scrollArea420->setWidget(widget);
     }
 }
 
-void MainWindow::addItem(dest d) {
+void MainWindow::addItem(dest d, QWidget *widget, int o, QVBoxLayout *layout) {
     std::cout << "adding item" << std::endl;
-    destinations.emplace_back(scrollAreaWidgetContents);
-    destinations.back().setObjectName(QString::fromUtf8(&"radioButton_" [ toascii(destinations.size())]));
-    destinations.back().setGeometry(QRect(0, 25 * destinations.size(), 851, 24));
-    destinations.back().setText(QCoreApplication::translate("MainWindow", d.formatString(), nullptr));
+    QRadioButton *button = new QRadioButton(widget);
+    button->setObjectName(QString::fromUtf8(&"radioButton_" [ toascii(destinations.size())]));
+    button->setGeometry(QRect(0, 25 * o, 851, 24));
+    std::cout << d.formatString() << std::endl;
+    layout->addWidget(button);
+    button->setText(QCoreApplication::translate("MainWindow", const_cast<char*>(d.formatString().c_str()), nullptr));
+    //destinations.emplace_back(button);
 }

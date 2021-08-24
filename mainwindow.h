@@ -25,6 +25,7 @@
 #include "dest.h"
 #include <string>
 #include <list>
+#include <QtWidgets/QVBoxLayout>
 //#include "main.h"
 
 namespace Ui {
@@ -76,7 +77,7 @@ public:
     //void initEventListeners();
     void setupUi(QMainWindow *MainWindow);
     void calculateftl420();
-    void addItem(dest d);
+    void addItem(dest d, QWidget *widget, int o, QVBoxLayout *layout);
 };
 
 
