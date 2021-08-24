@@ -2,23 +2,23 @@
 // Created by pentasteve on 8/22/21.
 //
 #include <iostream>
+#include <utility>
 #include "pearl.h"
-std::list<dest> pearl::calculateGenericFtl(double pearlHeight, double tntHeight, int maxTNT, double destX, double destZ, int alignX, int alignZ, double initM) {
-    std::list<dest> dests;
+std::vector<dest> pearl::calculateGenericFtl(double pearlHeight, double tntHeight, int maxTNT, double destX, double destZ, int alignX, int alignZ, double initM, int sort) {
+    std::vector<dest> dests;
     std::cout << "pressed" << std::endl;
     /*std::cout << "pearl-height: " << pearlHeight << std::endl;
     std::cout << "TNT-Height: " << tntHeight << std::endl;
-    std::cout << "max-TNT: " << maxTNT << std::endl;
+    std::cout << "max-TNT: " << maxTNT << std::endl;*/
     std::cout << "destC-X: " << destX << std::endl;
     std::cout << "destC-Z: " << destZ << std::endl;
-    std::cout << "aligner-X: " << alignX << std::endl;
+    /*std::cout << "aligner-X: " << alignX << std::endl;
     std::cout << "aligner-Z: " << alignZ << std::endl;*/
     std::array<double,3> destC = {destX, 128, destZ};
-    double deltaAngle = ((double) 10) / maxTNT;
+    double deltaAngle = ((double) 2) / maxTNT;
     std::cout << "deltaAngle: " << deltaAngle << std::endl;
     std::array<double,3> initL = {(double) (alignX+1), pearlHeight, (double) alignZ};
 
-    std::cout << "meese" << std::endl;
 
     double angle = atan2(destC[0] - initL[0], destC[2] - initL[2]);
     std::cout << "angle: " << angle << std::endl;
@@ -36,20 +36,30 @@ std::list<dest> pearl::calculateGenericFtl(double pearlHeight, double tntHeight,
 
             std::array<double,3> vector = add(mul(firstE,fir),mul(secondE,sec));
             double vAngle = atan2(vector[0],vector[2]);
-            std::cout << "testing " << vAngle << std::endl;
+            //std::cout << "testing " << vAngle << std::endl;
 
             if(vAngle > angle - deltaAngle && vAngle < angle+deltaAngle){
-                std::cout << "passed " << fir << ", " << sec << std::endl;
+                //std::cout << "passed " << fir << ", " << sec << std::endl;
                 vector = add(vector,{0,initM,0});
-                std::cout << "vecadd " << fir << ", " << sec << std::endl;
+                //std::cout << "vecadd " << fir << ", " << sec << std::endl;
                 std::list<std::array<double,3>> gameticks = getGt(initL, vector, destC);
-                std::cout << "getgt " << fir << ", " << sec << std::endl;
-                dests.emplace_back(pythag(gameticks.front()[0],gameticks.front()[2],destC[0],destC[2]),fir,sec,gameticks);
-                std::cout << "done " << fir << ", " << sec << std::endl;
+                //std::cout << "getgt " << gameticks.back()[0] << ", " << gameticks.back()[1] << ", " << gameticks.back()[2] << std::endl;
+                double d = sqrt(pythag(gameticks.back()[0],gameticks.back()[2],destC[0],destC[2]));
+                int i = 0;
+                /*for(std::array<double,3> tick : gameticks){
+                    std::cout << "blue: " << fir << "  red: " << sec << "  T: " << i << "  x: " << tick[0] << "  y: " << tick[1] << "  z: " << tick[2] << std::endl;
+                    i++;
+                }*/
+
+                if(d < 50){
+                    dests.emplace_back(d,fir,sec,gameticks);
+                }
+                //std::cout << "done " << fir << ", " << sec << std::endl;
             }
         }
     }
-    std::cout << "done" << std::endl;
+
+    //dests = bubbleSort(dests,(sizeof(dests)/sizeof(dests[0]),sort),sort);
     return dests;
     /*std::array<double,3> nwp = getTntAccel(initL,getTntCoord(0,alignX,alignZ,tntHeight));
     std::cout << nwp[0] << ", " << nwp[1] << ", " << nwp[2] << std::endl;*/
@@ -162,11 +172,13 @@ std::array<double,3> add(std::array<double,3> one, std::array<double,3> two) {
 std::list<std::array<double,3>> getGt(std::array<double,3> initL, std::array<double,3> vec, std::array<double,3> dest) {
     double lowestDistance = pythag(initL[0],initL[2],dest[0],dest[2]);
     std::list<std::array<double,3>> list;
+    std::cout << "getting GTs" << std::endl;
     list.push_back(initL);
-    std::array<double,3> initL2 = initL2;
+    std::array<double,3> initL2 = initL;
 
     while(true){
-        std::array<double,3> initL2 = add(initL2,vec);
+        initL2 = add(initL2,vec);
+        //std::cout << "x: " << vec[0] << "  y: " << vec[1] << "  z: " << vec[2] << "pos:  x: " << initL2[0] << "  y: " << initL2[1] << "  z: " << initL2[2] << "  Lowest Dist: " << lowestDistance << std::endl;
         double newDist = pythag(initL2[0],initL2[2],dest[0],dest[2]);
         if(newDist>lowestDistance){
             return list;
@@ -177,11 +189,56 @@ std::list<std::array<double,3>> getGt(std::array<double,3> initL, std::array<dou
         if(initL2[1] < 128){
             return list;
         }
+
         //gravity and deceleration
         vec = add(mul(vec,0.99F),{0,-0.03F,0});
     }
 }
 
-double pythag(double a1, double a2, double b1, double b2){
-    return sqrt(pow(a1-a2, 2)+pow(b1-b2,2));
+double pythag(double a1, double b1, double a2, double b2){
+    return pow(a1-a2, 2)+pow(b1-b2,2);
+}
+
+void swap(dest *xp, dest *yp)
+{
+    dest temp = *xp;
+    *xp = *yp;
+    *yp = temp;
+}
+
+/***
+ *
+ * @param list
+ * @param n
+ * @param type 0 = GT sort, 1 = total tnt sort, 2 = distance sort
+ */
+std::vector<dest> pearl::bubbleSort(std::vector<dest> list, int n, int type)
+{
+    std::vector<dest> l = std::move(list);
+    int i, j;
+    switch(type){
+        case 0:{
+            for (i = 0; i < n-1; i++)
+                for (j = 0; j < n-i-1; j++)
+                    if (l[j].GTs.size() > l[j+1].GTs.size())
+                        swap(&l[j], &l[j+1]);
+            return l;
+        }
+        case 1:{
+            for (i = 0; i < n-1; i++)
+                for (j = 0; j < n-i-1; j++)
+                    if ((l[j].bluetnt + l[j].redtnt) > (l[j+1].bluetnt + l[j+1].redtnt))
+                        swap(&l[j], &l[j+1]);
+            return l;
+        }
+
+        case 2:{
+            for (i = 0; i < n-1; i++)
+                for (j = 0; j < n-i-1; j++)
+                    if (l[j].dist > l[j+1].dist)
+                        swap(&l[j], &l[j+1]);
+            return l;
+        }
+        default: return l;
+    }
 }

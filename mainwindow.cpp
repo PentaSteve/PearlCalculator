@@ -227,7 +227,7 @@ void MainWindow::calculateftl420() {
     int alX = this->alignX->text().toInt();
     int alZ = this->alignZ->text().toInt();
     if (maxT != 0.0 && desX != 0.0 && desZ != 0.0 && alX != NULL && alZ != NULL) {
-        std::list<dest> dests = pearl::calculateGenericFtl(185.34881785360997, 185.5F, maxT, desX, desZ, alX, alZ,0.5100841893612624);
+        std::vector<dest> dests = pearl::calculateGenericFtl(185.34881785360997, 185.5F, maxT, desX, desZ, alX, alZ, 0.5100841893612624, 0);
         std::cout << dests.size() << std::endl;
         QWidget *widget = new QWidget();
         widget->setObjectName(QString::fromUtf8("scrollAreaWidgetContents"));
