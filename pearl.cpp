@@ -14,28 +14,37 @@ std::list<dest> pearl::calculateGenericFtl(double pearlHeight, double tntHeight,
     std::cout << "aligner-X: " << alignX << std::endl;
     std::cout << "aligner-Z: " << alignZ << std::endl;*/
     std::array<double,3> destC = {destX, 128, destZ};
-    double deltaAngle = 10 / maxTNT;
-
+    double deltaAngle = ((double) 10) / maxTNT;
+    std::cout << "deltaAngle: " << deltaAngle << std::endl;
     std::array<double,3> initL = {(double) (alignX+1), pearlHeight, (double) alignZ};
 
     double angle = atan2(destC[0] - initL[0], destC[2] - initL[2]);
+    std::cout << "angle: " << angle << std::endl;
     int quadrant = getQuadrant(angle);
-    if (quadrant == 4) return dests;
+    if (quadrant == 4) {
+        std::cout << "quadrant = 4" << std::endl;
+        return dests;
+    }
 
     std::array<double,3> firstE = getFirst(quadrant);
     std::array<double,3> secondE = getSecond(quadrant);
 
     for(int sec = maxTNT; sec >= 0; sec--) {
         for(int fir = maxTNT; fir >= 0; fir--){
+
             std::array<double,3> vector = add(mul(firstE,fir),mul(secondE,sec));
             double vAngle = atan2(vector[0],vector[2]);
+            std::cout << "testing " << vAngle << std::endl;
+
             if(vAngle > angle - deltaAngle && vAngle < angle+deltaAngle){
+                std::cout << "testing " << fir << ", " << sec << std::endl;
                 vector = add(vector,{0,initM,0});
                 std::list<std::array<double,3>> gameticks = getGt(initL, vector, destC);
-                dests.push_front(dest(pythag(gameticks.front()[0],gameticks.front()[2],destC[0],destC[2]),fir,sec,gameticks));
+                dests.emplace_back(pythag(gameticks.front()[0],gameticks.front()[2],destC[0],destC[2]),fir,sec,gameticks);
             }
         }
     }
+    std::cout << "done" << std::endl;
     return dests;
     /*std::array<double,3> nwp = getTntAccel(initL,getTntCoord(0,alignX,alignZ,tntHeight));
     std::cout << nwp[0] << ", " << nwp[1] << ", " << nwp[2] << std::endl;*/

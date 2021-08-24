@@ -14,7 +14,7 @@
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QLineEdit>
-#include <QtWidgets/QListWidget>
+#include <QtWidgets/QRadioButton>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QTabWidget>
@@ -22,6 +22,9 @@
 #include <QtWidgets/QScrollArea>
 #include <QSizePolicy>
 #include "pearl.h"
+#include "dest.h"
+#include <string>
+#include <list>
 //#include "main.h"
 
 namespace Ui {
@@ -66,12 +69,14 @@ public:
     QLabel *label_51;
     QLineEdit *maxTNT_621;
     QWidget *tab_3;
+    std::list<QRadioButton> destinations;
 
     void retranslateUi(QMainWindow *MainWindow) const; // retranslateUi
 
     //void initEventListeners();
     void setupUi(QMainWindow *MainWindow);
     void calculateftl420();
+    void addItem(dest d);
 };
 
 

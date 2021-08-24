@@ -15,9 +15,10 @@ public:
     int bluetnt;
     std::list<std::array<double,3>> GTs;
     dest(double d, int bt, int rt, std::list<std::array<double,3>> gt);
+    char * formatString();
 };
 
-/*std::string getFormatted();
+/*
 
 double getX();
 

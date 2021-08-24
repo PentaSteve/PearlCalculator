@@ -2,6 +2,7 @@
 // Created by pentasteve on 8/22/21.
 //
 
+#include <iostream>
 #include "mainwindow.h"
 
 
@@ -136,22 +137,6 @@ void MainWindow::setupUi(QMainWindow *MainWindow){
     scrollAreaWidgetContents = new QWidget();
     scrollAreaWidgetContents->setObjectName(QString::fromUtf8("scrollAreaWidgetContents"));
     scrollAreaWidgetContents->setGeometry(QRect(0, 0, 848, 479));
-    frame = new QFrame(scrollAreaWidgetContents);
-    frame->setObjectName(QString::fromUtf8("frame"));
-    frame->setGeometry(QRect(0, 0, 841, 26));
-    frame->setFrameShape(QFrame::StyledPanel);
-    frame->setFrameShadow(QFrame::Plain);
-    frame->setLineWidth(0);
-    label_6 = new QLabel(frame);
-    label_6->setObjectName(QString::fromUtf8("label_6"));
-    label_6->setGeometry(QRect(76, 4, 761, 18));
-    label_6->setLineWidth(0);
-    pushButton_2 = new QPushButton(frame);
-    pushButton_2->setObjectName(QString::fromUtf8("pushButton_2"));
-    pushButton_2->setGeometry(QRect(0, 0, 31, 26));
-    pushButton = new QPushButton(frame);
-    pushButton->setObjectName(QString::fromUtf8("pushButton"));
-    pushButton->setGeometry(QRect(32, 0, 41, 26));
     scrollArea420->setWidget(scrollAreaWidgetContents);
     tabWidget->addTab(tab, QString());
     tab_2 = new QWidget();
@@ -230,7 +215,16 @@ void MainWindow::calculateftl420() {
     double desZ = this->destZ->text().toDouble();
     int alX = this->alignX->text().toInt();
     int alZ = this->alignZ->text().toInt();
-    if (maxT != NULL && desX != NULL && desZ != NULL && alX != NULL && alZ != NULL) {
-        pearl::calculateGenericFtl(185.34881785360997F, 185.5F, maxT, desX, desZ, alX, alZ,0.005F);
+    if (maxT != 0.0 && desX != 0.0 && desZ != 0.0 && alX != NULL && alZ != NULL) {
+        std::list<dest> dests = pearl::calculateGenericFtl(185.34881785360997, 185.5F, maxT, desX, desZ, alX, alZ,0.5100841893612624);
+        std::cout << dests.size() << std::endl;
     }
+}
+
+void MainWindow::addItem(dest d) {
+    std::cout << "adding item" << std::endl;
+    destinations.emplace_back(scrollAreaWidgetContents);
+    destinations.back().setObjectName(QString::fromUtf8(&"radioButton_" [ toascii(destinations.size())]));
+    destinations.back().setGeometry(QRect(0, 25 * destinations.size(), 851, 24));
+    destinations.back().setText(QCoreApplication::translate("MainWindow", d.formatString(), nullptr));
 }
