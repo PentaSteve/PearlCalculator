@@ -4,6 +4,7 @@
 
 #include <iostream>
 #include <QVBoxLayout>
+#include <sstream>
 #include "mainwindow.h"
 
 
@@ -109,10 +110,34 @@ void MainWindow::setupUi(QMainWindow *MainWindow){
     label_2 = new QLabel(tab);
     label_2->setObjectName(QString::fromUtf8("label_2"));
     label_2->setGeometry(QRect(185, 5, 48, 18));
+
     calculateButton = new QPushButton(tab);
     calculateButton->setObjectName(QString::fromUtf8("calculateButton"));
     calculateButton->setGeometry(QRect(365, 2, 80, 26));
     connect(calculateButton, &QPushButton::released, this, &MainWindow::calculateftl420);
+
+    chunkLoadButton = new QPushButton(tab);
+    chunkLoadButton->setObjectName(QString::fromUtf8("chunkLoadButton"));
+    chunkLoadButton->setGeometry(QRect(462, 2, 111, 26));
+    chunkLoadButton->setAutoFillBackground(true);
+    chunkLoadButton->setCheckable(false);
+    chunkLoadButton->setAutoRepeat(false);
+    chunkLoadButton->setAutoExclusive(false);
+    chunkLoadButton->setAutoDefault(false);
+    chunkLoadButton->setText(QCoreApplication::translate("MainWindow", "Chunk Loading", nullptr));
+    connect(chunkLoadButton, &QPushButton::released, this, &MainWindow::chunkLoad420);
+
+    progButton = new QPushButton(tab);
+    progButton->setObjectName(QString::fromUtf8("progButton"));
+    progButton->setGeometry(QRect(590, 2, 81, 26));
+    progButton->setAutoFillBackground(true);
+    progButton->setCheckable(false);
+    progButton->setAutoRepeat(false);
+    progButton->setAutoExclusive(false);
+    progButton->setAutoDefault(false);
+    progButton->setText(QCoreApplication::translate("MainWindow", "Program", nullptr));
+    connect(progButton, &QPushButton::released, this, &MainWindow::prog420);
+
     label_3 = new QLabel(tab);
     label_3->setObjectName(QString::fromUtf8("label_3"));
     label_3->setGeometry(QRect(5, 35, 63, 18));
@@ -227,30 +252,85 @@ void MainWindow::calculateftl420() {
     int alX = this->alignX->text().toInt();
     int alZ = this->alignZ->text().toInt();
     if (maxT != 0.0 && desX != 0.0 && desZ != 0.0 && alX != NULL && alZ != NULL) {
-        std::vector<dest> dests = pearl::calculateGenericFtl(185.34881785360997, 185.5F, maxT, desX, desZ, alX, alZ, 0.5100841893612624, 0);
-        std::cout << dests.size() << std::endl;
-        QWidget *widget = new QWidget();
-        widget->setObjectName(QString::fromUtf8("scrollAreaWidgetContents"));
-        widget->setGeometry(QRect(0, 0, 848, 479));
-        QVBoxLayout *verticalLayout_2 = new QVBoxLayout(widget);
+        destinations = pearl::calculateGenericFtl(185.34881785360997, 185.5F, maxT, desX, desZ, alX, alZ, 0.5100841893612624, 0);
+        std::cout << destinations.size() << std::endl;
+        list= new QWidget();
+        list->setObjectName(QString::fromUtf8("scrollAreaWidgetContents"));
+        list->setGeometry(QRect(0, 0, 848, 479));
+        verticalLayout_2 = new QVBoxLayout(list);
         verticalLayout_2->setObjectName(QString::fromUtf8("verticalLayout_2"));
+        radioButtons = new QButtonGroup(this);
         int i = 0;
-        for(dest Dest : dests){
+        for(const dest& Dest : destinations){
             //std::cout << Dest.formatString() << std::endl;
-            addItem(Dest, widget, i, verticalLayout_2);
+            addItem(Dest, list, i, verticalLayout_2);
             i++;
         }
-        scrollArea420->setWidget(widget);
+        //destinations[0].button->setChecked(true);
+        //std::cout << verticalLayout_2->findChildren<QRadioButton*>("radioButton").size() << std::endl;
+        scrollArea420->setWidget(list);
     }
+
 }
 
 void MainWindow::addItem(dest d, QWidget *widget, int o, QVBoxLayout *layout) {
-    std::cout << "adding item" << std::endl;
-    QRadioButton *button = new QRadioButton(widget);
-    button->setObjectName(QString::fromUtf8(&"radioButton_" [ toascii(destinations.size())]));
-    button->setGeometry(QRect(0, 25 * o, 851, 24));
-    std::cout << d.formatString() << std::endl;
-    layout->addWidget(button);
-    button->setText(QCoreApplication::translate("MainWindow", const_cast<char*>(d.formatString().c_str()), nullptr));
+    //std::cout << "adding item" << std::endl;
+    d.button = new QRadioButton(widget);
+    d.button->setObjectName(QString::fromUtf8("radioButton"));
+    d.button->setGeometry(QRect(0, 25 * o, 851, 24));
+    //std::cout << d.formatString() << std::endl;
+    layout->addWidget(d.button);
+    radioButtons->addButton(d.button,o);
+    d.button->setText(QCoreApplication::translate("MainWindow", const_cast<char*>(d.formatString().c_str()), nullptr));
     //destinations.emplace_back(button);
+}
+
+void MainWindow::chunkLoad420(){
+    std::cout << "chunk Loading" << std::endl;
+    dest d = getPressed();
+    std::vector<std::string> items;
+    int i = 0;
+    for(std::array<double,3> gt : d.GTs){
+        int chunkX = gt[0]/16;
+        int chunkZ = gt[2]/16;
+        std::cout << "Tick: " << i << "  Chunk: x:" << chunkX << " z:" << chunkZ << "  Pearl coords: x:" << gt[0] << " y:" << gt[1] << " z:" << gt[2] << std::endl;
+        std::ostringstream ss;
+        ss << "Tick: " << i << "  Chunk: x:" << chunkX << " z:" << chunkZ << "  Pearl coords: x:" << gt[0] << " y:" << gt[1] << " z:" << gt[2];
+        items.emplace_back(ss.str());
+        i++;
+    }
+    std::cout << "displaying" << std::endl;
+    displayInfo(items);
+}
+
+void MainWindow::prog420(){
+
+}
+
+/***
+ *
+ * @return returns the currently selected destination, if none are selected, returns the first one on the list.
+ */
+dest MainWindow::getPressed(){
+    return destinations[radioButtons->checkedId()];
+}
+
+void MainWindow::displayInfo(const std::vector<std::string>& v){
+    //clear the list
+    list = new QWidget();
+    list->setObjectName(QString::fromUtf8("scrollAreaWidgetContents"));
+    list->setGeometry(QRect(0, 0, 848, 479));
+    int i = 0;
+    verticalLayout_2 = new QVBoxLayout(list);
+    verticalLayout_2->setObjectName(QString::fromUtf8("verticalLayout_2"));
+
+    for(const std::string& s : v) {
+        auto *lab = new QLabel();
+        lab->setText(QString::fromUtf8(s.c_str()));
+        lab->setGeometry(QRect(0, 25 * i, 851, 24));
+        verticalLayout_2->addWidget(lab);
+        //info.push_back(QLabel());
+    }
+    scrollArea420->setWidget(list);
+
 }

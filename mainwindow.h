@@ -26,6 +26,8 @@
 #include <string>
 #include <list>
 #include <QtWidgets/QVBoxLayout>
+#include <sstream>
+#include <QButtonGroup>
 //#include "main.h"
 
 namespace Ui {
@@ -70,14 +72,24 @@ public:
     QLabel *label_51;
     QLineEdit *maxTNT_621;
     QWidget *tab_3;
-    std::list<QRadioButton> destinations;
+    std::vector<dest> destinations;
+    QPushButton *chunkLoadButton;
+    QPushButton *progButton;
+    QWidget *list;
+    //std::vector<*QLabel>& info;
+    QVBoxLayout *verticalLayout_2;
+    QButtonGroup *radioButtons;
 
     void retranslateUi(QMainWindow *MainWindow) const; // retranslateUi
 
     //void initEventListeners();
     void setupUi(QMainWindow *MainWindow);
     void calculateftl420();
+    void chunkLoad420();
+    void prog420();
     void addItem(dest d, QWidget *widget, int o, QVBoxLayout *layout);
+    void displayInfo(const std::vector<std::string>& s);
+    dest getPressed();
 };
 
 

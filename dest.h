@@ -7,6 +7,7 @@
 #include <string>
 #include <list>
 #include <array>
+#include <QRadioButton>
 
 class dest {
 public:
@@ -16,8 +17,8 @@ public:
     std::list<std::array<double,3>> GTs;
     dest(double d, int bt, int rt, std::list<std::array<double,3>> gt);
     std::string formatString();
+    QRadioButton *button;
 };
-
 /*
 
 double getX();
