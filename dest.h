@@ -14,10 +14,11 @@ public:
     double dist;
     int redtnt;
     int bluetnt;
+    int quadrant;
     std::list<std::array<double,3>> GTs;
-    dest(double d, int bt, int rt, std::list<std::array<double,3>> gt);
+    dest(double d, int bt, int rt, std::list<std::array<double,3>> gt, int q);
     std::string formatString();
-    QRadioButton *button;
+    QRadioButton *button{};
 };
 /*
 

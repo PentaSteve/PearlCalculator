@@ -11,7 +11,7 @@
 void MainWindow::setupUi(QMainWindow *MainWindow){
 
     if (MainWindow->objectName().isEmpty())
-        MainWindow->setObjectName(QString::fromUtf8("MainWindow"));
+        MainWindow->setObjectName(QString::fromUtf8("setupUi"));
     MainWindow->resize(861, 600);
 
 
@@ -124,7 +124,7 @@ void MainWindow::setupUi(QMainWindow *MainWindow){
     chunkLoadButton->setAutoRepeat(false);
     chunkLoadButton->setAutoExclusive(false);
     chunkLoadButton->setAutoDefault(false);
-    chunkLoadButton->setText(QCoreApplication::translate("MainWindow", "Chunk Loading", nullptr));
+    chunkLoadButton->setText(QCoreApplication::translate("setupUi", "Chunk Loading", nullptr));
     connect(chunkLoadButton, &QPushButton::released, this, &MainWindow::chunkLoad420);
 
     progButton = new QPushButton(tab);
@@ -135,7 +135,7 @@ void MainWindow::setupUi(QMainWindow *MainWindow){
     progButton->setAutoRepeat(false);
     progButton->setAutoExclusive(false);
     progButton->setAutoDefault(false);
-    progButton->setText(QCoreApplication::translate("MainWindow", "Program", nullptr));
+    progButton->setText(QCoreApplication::translate("setupUi", "Program", nullptr));
     connect(progButton, &QPushButton::released, this, &MainWindow::prog420);
 
     label_3 = new QLabel(tab);
@@ -225,22 +225,22 @@ void MainWindow::setupUi(QMainWindow *MainWindow){
 }
 
 void MainWindow::retranslateUi(QMainWindow *MainWindow) const {
-    MainWindow->setWindowTitle(QCoreApplication::translate("MainWindow", "Pearl Calculator", nullptr));
-    label->setText(QCoreApplication::translate("MainWindow", "Dest X:", nullptr));
-    label_2->setText(QCoreApplication::translate("MainWindow", "Dest Z:", nullptr));
-    calculateButton->setText(QCoreApplication::translate("MainWindow", "Calculate", nullptr));
-    label_3->setText(QCoreApplication::translate("MainWindow", "Aligner X:", nullptr));
-    label_4->setText(QCoreApplication::translate("MainWindow", "Aligner Z:", nullptr));
-    label_5->setText(QCoreApplication::translate("MainWindow", "Max TNT:", nullptr));
-    tabWidget->setTabText(tabWidget->indexOf(tab), QCoreApplication::translate("MainWindow", "420/420-69 FTL", nullptr));
-    label1->setText(QCoreApplication::translate("MainWindow", "Dest X:", nullptr));
-    label_21->setText(QCoreApplication::translate("MainWindow", "Dest Z:", nullptr));
-    calculateButton_621->setText(QCoreApplication::translate("MainWindow", "Calculate", nullptr));
-    label_31->setText(QCoreApplication::translate("MainWindow", "Aligner X:", nullptr));
-    label_41->setText(QCoreApplication::translate("MainWindow", "Aligner Z:", nullptr));
-    label_51->setText(QCoreApplication::translate("MainWindow", "Max TNT:", nullptr));
-    tabWidget->setTabText(tabWidget->indexOf(tab_2), QCoreApplication::translate("MainWindow", "621 FTL", nullptr));
-    tabWidget->setTabText(tabWidget->indexOf(tab_3), QCoreApplication::translate("MainWindow", "Autoload FTL (coming soon)", nullptr));
+    MainWindow->setWindowTitle(QCoreApplication::translate("setupUi", "Pearl Calculator", nullptr));
+    label->setText(QCoreApplication::translate("setupUi", "Dest X:", nullptr));
+    label_2->setText(QCoreApplication::translate("setupUi", "Dest Z:", nullptr));
+    calculateButton->setText(QCoreApplication::translate("setupUi", "Calculate", nullptr));
+    label_3->setText(QCoreApplication::translate("setupUi", "Aligner X:", nullptr));
+    label_4->setText(QCoreApplication::translate("setupUi", "Aligner Z:", nullptr));
+    label_5->setText(QCoreApplication::translate("setupUi", "Max TNT:", nullptr));
+    tabWidget->setTabText(tabWidget->indexOf(tab), QCoreApplication::translate("setupUi", "420/420-69 FTL", nullptr));
+    label1->setText(QCoreApplication::translate("setupUi", "Dest X:", nullptr));
+    label_21->setText(QCoreApplication::translate("setupUi", "Dest Z:", nullptr));
+    calculateButton_621->setText(QCoreApplication::translate("setupUi", "Calculate", nullptr));
+    label_31->setText(QCoreApplication::translate("setupUi", "Aligner X:", nullptr));
+    label_41->setText(QCoreApplication::translate("setupUi", "Aligner Z:", nullptr));
+    label_51->setText(QCoreApplication::translate("setupUi", "Max TNT:", nullptr));
+    tabWidget->setTabText(tabWidget->indexOf(tab_2), QCoreApplication::translate("setupUi", "621 FTL", nullptr));
+    tabWidget->setTabText(tabWidget->indexOf(tab_3), QCoreApplication::translate("setupUi", "Autoload FTL (coming soon)", nullptr));
 }
 
 //621: 186.34881785360997
@@ -252,6 +252,12 @@ void MainWindow::calculateftl420() {
     int alX = this->alignX->text().toInt();
     int alZ = this->alignZ->text().toInt();
     if (maxT != 0.0 && desX != 0.0 && desZ != 0.0 && alX != NULL && alZ != NULL) {
+        if(!destinations.empty()){
+            for(dest d : destinations){
+                delete d.button;
+            }
+            destinations.clear();
+        }
         destinations = pearl::calculateGenericFtl(185.34881785360997, 185.5F, maxT, desX, desZ, alX, alZ, 0.5100841893612624, 0);
         std::cout << destinations.size() << std::endl;
         list= new QWidget();
@@ -266,11 +272,12 @@ void MainWindow::calculateftl420() {
             addItem(Dest, list, i, verticalLayout_2);
             i++;
         }
+        radioButtons->button(0)->setChecked(true);
         //destinations[0].button->setChecked(true);
         //std::cout << verticalLayout_2->findChildren<QRadioButton*>("radioButton").size() << std::endl;
         scrollArea420->setWidget(list);
     }
-
+    status = 1;
 }
 
 void MainWindow::addItem(dest d, QWidget *widget, int o, QVBoxLayout *layout) {
@@ -281,30 +288,37 @@ void MainWindow::addItem(dest d, QWidget *widget, int o, QVBoxLayout *layout) {
     //std::cout << d.formatString() << std::endl;
     layout->addWidget(d.button);
     radioButtons->addButton(d.button,o);
-    d.button->setText(QCoreApplication::translate("MainWindow", const_cast<char*>(d.formatString().c_str()), nullptr));
+    d.button->setText(QCoreApplication::translate("setupUi", const_cast<char*>(d.formatString().c_str()), nullptr));
     //destinations.emplace_back(button);
 }
 
 void MainWindow::chunkLoad420(){
-    std::cout << "chunk Loading" << std::endl;
-    dest d = getPressed();
-    std::vector<std::string> items;
-    int i = 0;
-    for(std::array<double,3> gt : d.GTs){
-        int chunkX = gt[0]/16;
-        int chunkZ = gt[2]/16;
-        std::cout << "Tick: " << i << "  Chunk: x:" << chunkX << " z:" << chunkZ << "  Pearl coords: x:" << gt[0] << " y:" << gt[1] << " z:" << gt[2] << std::endl;
-        std::ostringstream ss;
-        ss << "Tick: " << i << "  Chunk: x:" << chunkX << " z:" << chunkZ << "  Pearl coords: x:" << gt[0] << " y:" << gt[1] << " z:" << gt[2];
-        items.emplace_back(ss.str());
-        i++;
+    if(status == 1 || status == 3){
+        std::cout << "chunk Loading" << std::endl;
+        dest d = getPressed();
+        std::vector<std::string> items;
+        int i = 0;
+        for(std::array<double,3> gt : d.GTs){
+            int chunkX = gt[0]/16;
+            int chunkZ = gt[2]/16;
+            std::cout << "Tick: " << i << "  Chunk: x:" << chunkX << " z:" << chunkZ << "  Pearl coords: x:" << gt[0] << " y:" << gt[1] << " z:" << gt[2] << std::endl;
+            std::ostringstream ss;
+            ss << "Tick: " << i << "  Chunk: x:" << chunkX << " z:" << chunkZ << "  Pearl coords: x:" << gt[0] << " y:" << gt[1] << " z:" << gt[2];
+            items.emplace_back(ss.str());
+            i++;
+        }
+        std::cout << "displaying" << std::endl;
+        displayInfo(items);
+        status = 2;
     }
-    std::cout << "displaying" << std::endl;
-    displayInfo(items);
 }
 
 void MainWindow::prog420(){
-
+    if(status == 1 || status == 2){
+        dest d = getPressed();
+        displayInfo(pearl::getBits(d.redtnt,d.bluetnt,d.quadrant,this->maxTNT->text().toInt()));
+    }
+    status = 3;
 }
 
 /***
@@ -312,7 +326,17 @@ void MainWindow::prog420(){
  * @return returns the currently selected destination, if none are selected, returns the first one on the list.
  */
 dest MainWindow::getPressed(){
-    return destinations[radioButtons->checkedId()];
+    if(status == 2 || status == 3){
+        std::cout << "returning selected " << selected->quadrant << std::endl;
+        dest d = *selected;
+        return d;
+    } else {
+        selected = &destinations[radioButtons->checkedId()];
+        std::cout << selected->quadrant << std::endl;
+        dest d = *selected;
+        return d;
+    }
+
 }
 
 void MainWindow::displayInfo(const std::vector<std::string>& v){

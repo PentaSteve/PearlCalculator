@@ -31,13 +31,15 @@
 //#include "main.h"
 
 namespace Ui {
-    class MainWindow;
+    //class setupUi;
 } // namespace Ui
 
 
 class MainWindow : public QObject
 {
     Q_OBJECT
+
+
 public:
     QWidget *centralwidget;
     QTabWidget *tabWidget;
@@ -80,6 +82,9 @@ public:
     QVBoxLayout *verticalLayout_2;
     QButtonGroup *radioButtons;
 
+    dest *selected;
+    //0 = nothing displayed, 1 = destinations displayed, 2 = chunk loading displayed, 3 = programming displayed
+    int status = 0;
     void retranslateUi(QMainWindow *MainWindow) const; // retranslateUi
 
     //void initEventListeners();

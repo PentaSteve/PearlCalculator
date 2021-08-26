@@ -11,6 +11,7 @@
 namespace pearl {
     std::vector<dest> calculateGenericFtl(double pearlHeight, double tntHeight, int maxTNT, double destX, double destZ, int alignX, int alignZ, double initM, int sort);
     std::vector<dest> bubbleSort(std::vector<dest> list, int n, int type);
+    std::vector<std::string> getBits(int r, int b, int q, int maxTnt);
 }
 int getQuadrant(double angle);
 #endif //PEARLCALCULATOR_PEARL_H

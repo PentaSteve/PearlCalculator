@@ -52,7 +52,7 @@ std::vector<dest> pearl::calculateGenericFtl(double pearlHeight, double tntHeigh
                 }*/
 
                 if(d < 50){
-                    dests.emplace_back(d,fir,sec,gameticks);
+                    dests.emplace_back(d,fir,sec,gameticks,quadrant);
                 }
                 //std::cout << "done " << fir << ", " << sec << std::endl;
             }
@@ -172,7 +172,7 @@ std::array<double,3> add(std::array<double,3> one, std::array<double,3> two) {
 std::list<std::array<double,3>> getGt(std::array<double,3> initL, std::array<double,3> vec, std::array<double,3> dest) {
     double lowestDistance = pythag(initL[0],initL[2],dest[0],dest[2]);
     std::list<std::array<double,3>> list;
-    std::cout << "getting GTs" << std::endl;
+    //std::cout << "getting GTs" << std::endl;
     list.push_back(initL);
     std::array<double,3> initL2 = initL;
 
@@ -241,4 +241,93 @@ std::vector<dest> pearl::bubbleSort(std::vector<dest> list, int n, int type)
         }
         default: return l;
     }
+}
+
+std::vector<std::string> pearl::getBits(int r, int b, int q, int maxTnt) {
+    int bits = pow(2, ceil(log(ceil(maxTnt-11)/286)/log(2)));
+    std::ostringstream Bits;
+    Bits << "Binary: ";
+    std::vector<std::string> list;
+    for(int i = 0; i<2; i++){
+        int tnt;
+        if(i == 0){
+            tnt = b;
+        } else {
+            tnt = r;
+        }
+        int t286 = tnt / 286;
+        tnt = tnt % 286;
+        int t143 = tnt / 143;
+        tnt = tnt % 143;
+        int t11 = tnt / 11;
+        int t1 = tnt % 11;
+
+        if (t11 == 1) {
+            t11 = 0;
+            t1 = 11;
+        }
+        if (t11 == 0 && t143 == 0 && t286 > 0) {
+            t286 -= 1;
+            t11 = 13;
+            t143 = 1;
+        }
+
+        list.emplace_back((i == 0 ? "----Blue----" : "----Red----"));
+
+        list.emplace_back("Large:");
+        for (int j = bits; j > 0; j = j / 2){
+            std::cout << "checking: " << j << ", " << t286 << std::endl;
+            if(j == (t286 & j)){
+                std::ostringstream ss;
+                ss << "+" << 286*j << " TNT";
+                list.emplace_back(ss.str());
+                Bits << "1";
+            } else {
+                Bits << "0";
+            }
+        }
+
+        if(t143 == 1){
+            list.emplace_back("+143 TNT");
+            Bits << "1";
+        } else {
+            Bits << "0";
+        }
+
+        list.emplace_back(" ");
+        list.emplace_back("Medium:");
+        for (int j = 8; j > 0; j = j / 2){
+            if(j == (t286 & j)){
+                std::ostringstream ss;
+                ss << "+" << 11*j << " TNT";
+                list.emplace_back(ss.str());
+                Bits << "1";
+            } else {
+                Bits << "0";
+            }
+        }
+        list.emplace_back(" ");
+        list.emplace_back("Small:");
+        for(int j = 8; j > 0; j = j / 2) {
+            if (j == (t1 & j)){
+                std::ostringstream ss;
+                ss << "+" << j << " TNT";
+                list.emplace_back(ss.str());
+                Bits << "1";
+            } else {
+                Bits << "0";
+            }
+        }
+        if(i == 0){
+            list.emplace_back(" ");
+            list.emplace_back(&"Left Bit: " [ (q/2)]);
+            list.emplace_back(&"Right Bit: " [ (q%2)]);
+            Bits << (q/2);
+            Bits << (q%2);
+        }
+        list.emplace_back(" ");
+    }
+
+    list.emplace_back(Bits.str());
+    return list;
 }

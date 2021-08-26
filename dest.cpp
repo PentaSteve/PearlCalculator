@@ -11,11 +11,12 @@
 #include <iostream>
 
 
-dest::dest(double d, int bt, int rt, std::list<std::array<double,3>> gt) {
+dest::dest(double d, int bt, int rt, std::list<std::array<double,3>> gt, int q) {
     this->dist = d;
     this->redtnt = rt;
     this->bluetnt = bt;
     this->GTs = std::move(gt);
+    this->quadrant = q;
 }
 
 std::string dest::formatString(){
