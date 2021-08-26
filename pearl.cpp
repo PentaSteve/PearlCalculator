@@ -9,11 +9,11 @@ std::vector<dest> pearl::calculateGenericFtl(double pearlHeight, double tntHeigh
     std::cout << "pressed" << std::endl;
     /*std::cout << "pearl-height: " << pearlHeight << std::endl;
     std::cout << "TNT-Height: " << tntHeight << std::endl;
-    std::cout << "max-TNT: " << maxTNT << std::endl;*/
+    std::cout << "max-TNT: " << maxTNT_420 << std::endl;*/
     std::cout << "destC-X: " << destX << std::endl;
     std::cout << "destC-Z: " << destZ << std::endl;
-    /*std::cout << "aligner-X: " << alignX << std::endl;
-    std::cout << "aligner-Z: " << alignZ << std::endl;*/
+    /*std::cout << "aligner-X: " << alignX_420 << std::endl;
+    std::cout << "aligner-Z: " << alignZ_420 << std::endl;*/
     std::array<double,3> destC = {destX, 128, destZ};
     double deltaAngle = ((double) 2) / maxTNT;
     std::cout << "deltaAngle: " << deltaAngle << std::endl;
@@ -61,7 +61,7 @@ std::vector<dest> pearl::calculateGenericFtl(double pearlHeight, double tntHeigh
 
     //dests = bubbleSort(dests,(sizeof(dests)/sizeof(dests[0]),sort),sort);
     return dests;
-    /*std::array<double,3> nwp = getTntAccel(initL,getTntCoord(0,alignX,alignZ,tntHeight));
+    /*std::array<double,3> nwp = getTntAccel(initL,getTntCoord(0,alignX_420,alignZ_420,tntHeight));
     std::cout << nwp[0] << ", " << nwp[1] << ", " << nwp[2] << std::endl;*/
 
     //double targetX =

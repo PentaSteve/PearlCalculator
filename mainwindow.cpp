@@ -94,126 +94,132 @@ void MainWindow::setupUi(QMainWindow *MainWindow){
 #if QT_VERSION >= QT_VERSION_CHECK(5, 12, 0)
     palette.setBrush(QPalette::Disabled, QPalette::PlaceholderText, brush8);
 #endif
+
     tabWidget->setPalette(palette);
     tabWidget->setAutoFillBackground(true);
-    tab = new QWidget();
-    tab->setObjectName(QString::fromUtf8("tab"));
-    destX = new QLineEdit(tab);
-    destX->setObjectName(QString::fromUtf8("destX"));
-    destX->setGeometry(QRect(55, 2, 113, 26));
-    label = new QLabel(tab);
-    label->setObjectName(QString::fromUtf8("label"));
-    label->setGeometry(QRect(5, 5, 48, 18));
-    destZ = new QLineEdit(tab);
-    destZ->setObjectName(QString::fromUtf8("destZ"));
-    destZ->setGeometry(QRect(235, 2, 113, 26));
-    label_2 = new QLabel(tab);
-    label_2->setObjectName(QString::fromUtf8("label_2"));
-    label_2->setGeometry(QRect(185, 5, 48, 18));
 
-    calculateButton = new QPushButton(tab);
-    calculateButton->setObjectName(QString::fromUtf8("calculateButton"));
-    calculateButton->setGeometry(QRect(365, 2, 80, 26));
-    connect(calculateButton, &QPushButton::released, this, &MainWindow::calculateftl420);
+    // 420 FTL tab
+    tab420 = new QWidget();
+    tab420->setObjectName(QString::fromUtf8("tab420"));
 
-    chunkLoadButton = new QPushButton(tab);
-    chunkLoadButton->setObjectName(QString::fromUtf8("chunkLoadButton"));
-    chunkLoadButton->setGeometry(QRect(462, 2, 111, 26));
-    chunkLoadButton->setAutoFillBackground(true);
-    chunkLoadButton->setCheckable(false);
-    chunkLoadButton->setAutoRepeat(false);
-    chunkLoadButton->setAutoExclusive(false);
-    chunkLoadButton->setAutoDefault(false);
-    chunkLoadButton->setText(QCoreApplication::translate("setupUi", "Chunk Loading", nullptr));
-    connect(chunkLoadButton, &QPushButton::released, this, &MainWindow::chunkLoad420);
+    //labels for 420 tab
+    dXlabel_420 = new QLabel(tab420);
+    dXlabel_420->setObjectName(QString::fromUtf8("dXlabel_420"));
+    dXlabel_420->setGeometry(QRect(5, 5, 48, 18));
+    dZlabel_420 = new QLabel(tab420);
+    dZlabel_420->setObjectName(QString::fromUtf8("dZlabel_420"));
+    dZlabel_420->setGeometry(QRect(185, 5, 48, 18));
+    aXlabel_420 = new QLabel(tab420);
+    aXlabel_420->setObjectName(QString::fromUtf8("aXlabel_420"));
+    aXlabel_420->setGeometry(QRect(5, 35, 63, 18));
+    aZlabel_420 = new QLabel(tab420);
+    aZlabel_420->setObjectName(QString::fromUtf8("aZlabel_420"));
+    aZlabel_420->setGeometry(QRect(185, 35, 63, 18));
+    maxTntLabel_420 = new QLabel(tab420);
+    maxTntLabel_420->setObjectName(QString::fromUtf8("maxTntLabel_420"));
+    maxTntLabel_420->setGeometry(QRect(365, 35, 63, 18));
 
-    progButton = new QPushButton(tab);
-    progButton->setObjectName(QString::fromUtf8("progButton"));
-    progButton->setGeometry(QRect(590, 2, 81, 26));
-    progButton->setAutoFillBackground(true);
-    progButton->setCheckable(false);
-    progButton->setAutoRepeat(false);
-    progButton->setAutoExclusive(false);
-    progButton->setAutoDefault(false);
-    progButton->setText(QCoreApplication::translate("setupUi", "Program", nullptr));
-    connect(progButton, &QPushButton::released, this, &MainWindow::prog420);
+    //input boxes for 420 tab
+    destX_420 = new QLineEdit(tab420);
+    destX_420->setObjectName(QString::fromUtf8("destX_420"));
+    destX_420->setGeometry(QRect(55, 2, 113, 26));
+    destZ_420 = new QLineEdit(tab420);
+    destZ_420->setObjectName(QString::fromUtf8("destZ_420"));
+    destZ_420->setGeometry(QRect(235, 2, 113, 26));
+    alignX_420 = new QLineEdit(tab420);
+    alignX_420->setObjectName(QString::fromUtf8("alignX_420"));
+    alignX_420->setGeometry(QRect(70, 32, 98, 26));
+    alignZ_420 = new QLineEdit(tab420);
+    alignZ_420->setObjectName(QString::fromUtf8("alignZ_420"));
+    alignZ_420->setGeometry(QRect(250, 32, 98, 26));
+    maxTNT_420 = new QLineEdit(tab420);
+    maxTNT_420->setObjectName(QString::fromUtf8("maxTNT_420"));
+    maxTNT_420->setGeometry(QRect(430, 32, 61, 26));
 
-    label_3 = new QLabel(tab);
-    label_3->setObjectName(QString::fromUtf8("label_3"));
-    label_3->setGeometry(QRect(5, 35, 63, 18));
-    alignX = new QLineEdit(tab);
-    alignX->setObjectName(QString::fromUtf8("alignX"));
-    alignX->setGeometry(QRect(70, 32, 98, 26));
-    label_4 = new QLabel(tab);
-    label_4->setObjectName(QString::fromUtf8("label_4"));
-    label_4->setGeometry(QRect(185, 35, 63, 18));
-    alignZ = new QLineEdit(tab);
-    alignZ->setObjectName(QString::fromUtf8("alignZ"));
-    alignZ->setGeometry(QRect(250, 32, 98, 26));
-    label_5 = new QLabel(tab);
-    label_5->setObjectName(QString::fromUtf8("label_5"));
-    label_5->setGeometry(QRect(365, 35, 63, 18));
-    maxTNT = new QLineEdit(tab);
-    maxTNT->setObjectName(QString::fromUtf8("maxTNT"));
-    maxTNT->setGeometry(QRect(430, 32, 61, 26));
+    //buttons for 420 tab
+    calcButton_420 = new QPushButton(tab420);
+    calcButton_420->setObjectName(QString::fromUtf8("calcButton_420"));
+    calcButton_420->setGeometry(QRect(365, 2, 80, 26));
+    connect(calcButton_420, &QPushButton::released, this, &MainWindow::calculateftl420);
+    chunkLoadButton_420 = new QPushButton(tab420);
+    chunkLoadButton_420->setObjectName(QString::fromUtf8("chunkLoadButton_420"));
+    chunkLoadButton_420->setGeometry(QRect(462, 2, 111, 26));
+    connect(chunkLoadButton_420, &QPushButton::released, this, &MainWindow::chunkLoad420);\
+    progButton_420 = new QPushButton(tab420);
+    progButton_420->setObjectName(QString::fromUtf8("progButton_420"));
+    progButton_420->setGeometry(QRect(590, 2, 81, 26));
+    connect(progButton_420, &QPushButton::released, this, &MainWindow::prog420);
 
-    //temporary for testing purposes
-    destX->setText("22");
-    destZ->setText("22");
-    alignX->setText("1");
-    alignZ->setText("1");
-    maxTNT->setText("11");
-
-    scrollArea420 = new QScrollArea(tab);
+    //scroll area for 420 tab
+    scrollArea420 = new QScrollArea(tab420);
     scrollArea420->setObjectName(QString::fromUtf8("scrollArea420"));
     scrollArea420->setGeometry(QRect(3, 62, 850, 481));
     scrollArea420->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
     scrollArea420->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     scrollArea420->setWidgetResizable(true);
-    /*scrollAreaWidgetContents = new QWidget();
-    scrollAreaWidgetContents->setObjectName(QString::fromUtf8("scrollAreaWidgetContents"));
-    scrollAreaWidgetContents->setGeometry(QRect(0, 0, 848, 479));
-    scrollArea420->setWidget(scrollAreaWidgetContents);*/
-    tabWidget->addTab(tab, QString());
-    tab_2 = new QWidget();
-    tab_2->setObjectName(QString::fromUtf8("tab_2"));
-    destX_621 = new QLineEdit(tab_2);
-    destX_621->setObjectName(QString::fromUtf8("destX_621"));
+    tabWidget->addTab(tab420, QString());
+
+
+    // 621 FTL
+    tab621 = new QWidget();
+    tab621->setObjectName(QString::fromUtf8("tab621"));
+
+    //labels for 621 tab
+    dXlabel_621 = new QLabel(tab621);
+    dXlabel_621->setObjectName(QString::fromUtf8("dXlabel_420"));
+    dXlabel_621->setGeometry(QRect(5, 5, 48, 18));
+    dZlabel_621 = new QLabel(tab621);
+    dZlabel_621->setObjectName(QString::fromUtf8("dZlabel_420"));
+    dZlabel_621->setGeometry(QRect(185, 5, 48, 18));
+    aXlabel_621 = new QLabel(tab621);
+    aXlabel_621->setObjectName(QString::fromUtf8("aXlabel_621"));
+    aXlabel_621->setGeometry(QRect(5, 35, 63, 18));
+    aZlabel_621 = new QLabel(tab621);
+    aZlabel_621->setObjectName(QString::fromUtf8("aZlabel_621"));
+    aZlabel_621->setGeometry(QRect(185, 35, 63, 18));
+    maxTntLabel_621 = new QLabel(tab621);
+    maxTntLabel_621->setObjectName(QString::fromUtf8("maxTntLabel_621"));
+    maxTntLabel_621->setGeometry(QRect(365, 35, 63, 18));
+
+    //input boxes for 621 tab
+    destX_621 = new QLineEdit(tab621);
+    destX_621->setObjectName(QString::fromUtf8("destX_420"));
     destX_621->setGeometry(QRect(55, 2, 113, 26));
-    label1 = new QLabel(tab_2);
-    label1->setObjectName(QString::fromUtf8("label1"));
-    label1->setGeometry(QRect(5, 5, 48, 18));
-    destZ_621 = new QLineEdit(tab_2);
-    destZ_621->setObjectName(QString::fromUtf8("destZ_621"));
+    destZ_621= new QLineEdit(tab621);
+    destZ_621->setObjectName(QString::fromUtf8("destZ_420"));
     destZ_621->setGeometry(QRect(235, 2, 113, 26));
-    label_21 = new QLabel(tab_2);
-    label_21->setObjectName(QString::fromUtf8("label_21"));
-    label_21->setGeometry(QRect(185, 5, 48, 18));
-    calculateButton_621 = new QPushButton(tab_2);
-    calculateButton_621->setObjectName(QString::fromUtf8("calculateButton_621"));
-    calculateButton_621->setGeometry(QRect(365, 2, 80, 26));
-    label_31 = new QLabel(tab_2);
-    label_31->setObjectName(QString::fromUtf8("label_31"));
-    label_31->setGeometry(QRect(5, 35, 63, 18));
-    alignX_621 = new QLineEdit(tab_2);
+    alignX_621 = new QLineEdit(tab621);
     alignX_621->setObjectName(QString::fromUtf8("alignX_621"));
     alignX_621->setGeometry(QRect(70, 32, 98, 26));
-    label_41 = new QLabel(tab_2);
-    label_41->setObjectName(QString::fromUtf8("label_41"));
-    label_41->setGeometry(QRect(185, 35, 63, 18));
-    alignZ_621 = new QLineEdit(tab_2);
+    alignZ_621 = new QLineEdit(tab621);
     alignZ_621->setObjectName(QString::fromUtf8("alignZ_621"));
     alignZ_621->setGeometry(QRect(250, 32, 98, 26));
-    label_51 = new QLabel(tab_2);
-    label_51->setObjectName(QString::fromUtf8("label_51"));
-    label_51->setGeometry(QRect(365, 35, 63, 18));
-    maxTNT_621 = new QLineEdit(tab_2);
+    maxTNT_621 = new QLineEdit(tab621);
     maxTNT_621->setObjectName(QString::fromUtf8("maxTNT_621"));
     maxTNT_621->setGeometry(QRect(430, 32, 61, 26));
-    tabWidget->addTab(tab_2, QString());
-    tab_3 = new QWidget();
-    tab_3->setObjectName(QString::fromUtf8("tab_3"));
-    tabWidget->addTab(tab_3, QString());
+
+    //buttons for 621 tab
+    calcButton_621 = new QPushButton(tab621);
+    calcButton_621->setObjectName(QString::fromUtf8("calcButton_420"));
+    calcButton_621->setGeometry(QRect(365, 2, 80, 26));
+    connect(calcButton_621, &QPushButton::released, this, &MainWindow::calculateftl420);
+    chunkLoadButton_621 = new QPushButton(tab621);
+    chunkLoadButton_621->setObjectName(QString::fromUtf8("chunkLoadButton_621"));
+    chunkLoadButton_621->setGeometry(QRect(462, 2, 111, 26));
+    connect(chunkLoadButton_621, &QPushButton::released, this, &MainWindow::chunkLoad420);
+    progButton_621 = new QPushButton(tab621);
+    progButton_621->setObjectName(QString::fromUtf8("progButton_631"));
+    progButton_621->setGeometry(QRect(590, 2, 81, 26));
+    connect(progButton_621, &QPushButton::released, this, &MainWindow::prog420);
+
+    //scroll area for 621 tab
+    scrollArea621 = new QScrollArea(tab621);
+    scrollArea621->setObjectName(QString::fromUtf8("scrollArea621"));
+    scrollArea621->setGeometry(QRect(3, 62, 850, 481));
+    scrollArea621->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+    scrollArea621->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    scrollArea621->setWidgetResizable(true);
+    tabWidget->addTab(tab621, QString());
     MainWindow->setCentralWidget(centralwidget);
 
     retranslateUi(MainWindow);
@@ -226,31 +232,41 @@ void MainWindow::setupUi(QMainWindow *MainWindow){
 
 void MainWindow::retranslateUi(QMainWindow *MainWindow) const {
     MainWindow->setWindowTitle(QCoreApplication::translate("setupUi", "Pearl Calculator", nullptr));
-    label->setText(QCoreApplication::translate("setupUi", "Dest X:", nullptr));
-    label_2->setText(QCoreApplication::translate("setupUi", "Dest Z:", nullptr));
-    calculateButton->setText(QCoreApplication::translate("setupUi", "Calculate", nullptr));
-    label_3->setText(QCoreApplication::translate("setupUi", "Aligner X:", nullptr));
-    label_4->setText(QCoreApplication::translate("setupUi", "Aligner Z:", nullptr));
-    label_5->setText(QCoreApplication::translate("setupUi", "Max TNT:", nullptr));
-    tabWidget->setTabText(tabWidget->indexOf(tab), QCoreApplication::translate("setupUi", "420/420-69 FTL", nullptr));
-    label1->setText(QCoreApplication::translate("setupUi", "Dest X:", nullptr));
-    label_21->setText(QCoreApplication::translate("setupUi", "Dest Z:", nullptr));
-    calculateButton_621->setText(QCoreApplication::translate("setupUi", "Calculate", nullptr));
-    label_31->setText(QCoreApplication::translate("setupUi", "Aligner X:", nullptr));
-    label_41->setText(QCoreApplication::translate("setupUi", "Aligner Z:", nullptr));
-    label_51->setText(QCoreApplication::translate("setupUi", "Max TNT:", nullptr));
-    tabWidget->setTabText(tabWidget->indexOf(tab_2), QCoreApplication::translate("setupUi", "621 FTL", nullptr));
+    dXlabel_420->setText(QCoreApplication::translate("setupUi", "Dest X:", nullptr));
+    dZlabel_420->setText(QCoreApplication::translate("setupUi", "Dest Z:", nullptr));
+    aXlabel_420->setText(QCoreApplication::translate("setupUi", "Aligner X:", nullptr));
+    aZlabel_420->setText(QCoreApplication::translate("setupUi", "Aligner Z:", nullptr));
+    maxTntLabel_420->setText(QCoreApplication::translate("setupUi", "Max TNT:", nullptr));
+
+    calcButton_420->setText(QCoreApplication::translate("setupUi", "Calculate", nullptr));
+    chunkLoadButton_420->setText(QCoreApplication::translate("setupUi", "Chunk Loading", nullptr));
+    progButton_420->setText(QCoreApplication::translate("setupUi", "Program", nullptr));
+    tabWidget->setTabText(tabWidget->indexOf(tab420), QCoreApplication::translate("setupUi", "420/420-69 FTL", nullptr));
+
+
+    dXlabel_621->setText(QCoreApplication::translate("setupUi", "Dest X:", nullptr));
+    dZlabel_621->setText(QCoreApplication::translate("setupUi", "Dest Z:", nullptr));
+    aXlabel_621->setText(QCoreApplication::translate("setupUi", "Aligner X:", nullptr));
+    aZlabel_621->setText(QCoreApplication::translate("setupUi", "Aligner Z:", nullptr));
+    maxTntLabel_621->setText(QCoreApplication::translate("setupUi", "Max TNT:", nullptr));
+
+    calcButton_621->setText(QCoreApplication::translate("setupUi", "Calculate", nullptr));
+    chunkLoadButton_621->setText(QCoreApplication::translate("setupUi", "Chunk Loading", nullptr));
+    progButton_621->setText(QCoreApplication::translate("setupUi", "Program", nullptr));
+    tabWidget->setTabText(tabWidget->indexOf(tab621), QCoreApplication::translate("setupUi", "621 FTL", nullptr));
+
+
     tabWidget->setTabText(tabWidget->indexOf(tab_3), QCoreApplication::translate("setupUi", "Autoload FTL (coming soon)", nullptr));
 }
 
 //621: 186.34881785360997
 //420: 185.34881785360997
 void MainWindow::calculateftl420() {
-    int maxT = this->maxTNT->text().toInt();
-    double desX = this->destX->text().toDouble();
-    double desZ = this->destZ->text().toDouble();
-    int alX = this->alignX->text().toInt();
-    int alZ = this->alignZ->text().toInt();
+    int maxT = this->maxTNT_420->text().toInt();
+    double desX = this->destX_420->text().toDouble();
+    double desZ = this->destZ_420->text().toDouble();
+    int alX = this->alignX_420->text().toInt();
+    int alZ = this->alignZ_420->text().toInt();
     if (maxT != 0.0 && desX != 0.0 && desZ != 0.0 && alX != NULL && alZ != NULL) {
         if(!destinations.empty()){
             for(dest d : destinations){
@@ -316,7 +332,7 @@ void MainWindow::chunkLoad420(){
 void MainWindow::prog420(){
     if(status == 1 || status == 2){
         dest d = getPressed();
-        displayInfo(pearl::getBits(d.redtnt,d.bluetnt,d.quadrant,this->maxTNT->text().toInt()));
+        displayInfo(pearl::getBits(d.redtnt,d.bluetnt,d.quadrant,this->maxTNT_420->text().toInt()));
     }
     status = 3;
 }

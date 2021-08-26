@@ -43,40 +43,58 @@ class MainWindow : public QObject
 public:
     QWidget *centralwidget;
     QTabWidget *tabWidget;
-    QWidget *tab;
-    QLineEdit *destX;
-    QLabel *label;
-    QLineEdit *destZ;
-    QLabel *label_2;
-    QPushButton *calculateButton;
-    QLabel *label_3;
-    QLineEdit *alignX;
-    QLabel *label_4;
-    QLineEdit *alignZ;
-    QLabel *label_5;
-    QLineEdit *maxTNT;
+    QWidget *tab420;
+
+
+    //labels 1-5 are for 420
+    QLabel *dXlabel_420;
+    QLabel *dZlabel_420;
+    QLabel *aXlabel_420;
+    QLabel *aZlabel_420;
+    QLabel *maxTntLabel_420;
+
+    QLineEdit *destX_420;
+    QLineEdit *destZ_420;
+    QLineEdit *alignX_420;
+    QLineEdit *alignZ_420;
+    QLineEdit *maxTNT_420;
+
+    QPushButton *calcButton_420;
+    QPushButton *chunkLoadButton_420;
+    QPushButton *progButton_420;
+
     QScrollArea *scrollArea420;
-    QWidget *scrollAreaWidgetContents;
+    /*QWidget *scrollAreaWidgetContents;
     QFrame *frame;
     QLabel *label_6;
     QPushButton *pushButton_2;
-    QPushButton *pushButton;
-    QWidget *tab_2;
+    QPushButton *pushButton;*/
+
+    //621 ftl stuff
+    QWidget *tab621;
+
+    QLabel *dXlabel_621;
+    QLabel *dZlabel_621;
+    QLabel *aXlabel_621;
+    QLabel *aZlabel_621;
+    QLabel *maxTntLabel_621;
+
     QLineEdit *destX_621;
-    QLabel *label1;
     QLineEdit *destZ_621;
-    QLabel *label_21;
-    QPushButton *calculateButton_621;
-    QLabel *label_31;
     QLineEdit *alignX_621;
-    QLabel *label_41;
     QLineEdit *alignZ_621;
-    QLabel *label_51;
     QLineEdit *maxTNT_621;
+
+
+    QPushButton *calcButton_621;
+    QPushButton *chunkLoadButton_621;
+    QPushButton *progButton_621;
+
     QWidget *tab_3;
     std::vector<dest> destinations;
-    QPushButton *chunkLoadButton;
-    QPushButton *progButton;
+
+    QScrollArea *scrollArea621;
+
     QWidget *list;
     //std::vector<*QLabel>& info;
     QVBoxLayout *verticalLayout_2;
