@@ -52,6 +52,7 @@ public:
     QLabel *aXlabel_420;
     QLabel *aZlabel_420;
     QLabel *maxTntLabel_420;
+    QLabel *sortByLabel_420;
 
     QLineEdit *destX_420;
     QLineEdit *destZ_420;
@@ -63,10 +64,14 @@ public:
     QPushButton *chunkLoadButton_420;
     QPushButton *progButton_420;
 
+    QRadioButton *sbClosest_420;
+    QRadioButton *sbLeastGt_420;
+    QRadioButton *sbLeastTnt_420;
+
     QScrollArea *scrollArea420;
     /*QWidget *scrollAreaWidgetContents;
     QFrame *frame;
-    QLabel *label_6;
+    QLabel *sortByLabel_420;
     QPushButton *pushButton_2;
     QPushButton *pushButton;*/
 
@@ -99,6 +104,8 @@ public:
     //std::vector<*QLabel>& info;
     QVBoxLayout *verticalLayout_2;
     QButtonGroup *radioButtons;
+
+    QButtonGroup *sortButtons;
 
     dest *selected;
     //0 = nothing displayed, 1 = destinations displayed, 2 = chunk loading displayed, 3 = programming displayed

@@ -6,7 +6,7 @@
 #include <QVBoxLayout>
 #include <sstream>
 #include "mainwindow.h"
-
+#include <chrono>
 
 void MainWindow::setupUi(QMainWindow *MainWindow){
 
@@ -118,6 +118,9 @@ void MainWindow::setupUi(QMainWindow *MainWindow){
     maxTntLabel_420 = new QLabel(tab420);
     maxTntLabel_420->setObjectName(QString::fromUtf8("maxTntLabel_420"));
     maxTntLabel_420->setGeometry(QRect(365, 35, 63, 18));
+    sortByLabel_420 = new QLabel(tab420);
+    sortByLabel_420->setObjectName(QString::fromUtf8("sortByLabel_420"));
+    sortByLabel_420->setGeometry(QRect(508, 35, 51, 18));
 
     //input boxes for 420 tab
     destX_420 = new QLineEdit(tab420);
@@ -149,6 +152,22 @@ void MainWindow::setupUi(QMainWindow *MainWindow){
     progButton_420->setObjectName(QString::fromUtf8("progButton_420"));
     progButton_420->setGeometry(QRect(590, 2, 81, 26));
     connect(progButton_420, &QPushButton::released, this, &MainWindow::prog420);
+
+    //sort by radio buttons for 420 tab
+    sortButtons = new QButtonGroup(this);
+    sbClosest_420 = new QRadioButton(tab420);
+    sbClosest_420->setObjectName(QString::fromUtf8("sbClosest"));
+    sbClosest_420->setGeometry(QRect(569, 33, 71, 24));
+    sortButtons->addButton(sbClosest_420,0);
+    sbLeastGt_420 = new QRadioButton(tab420);
+    sbLeastGt_420->setObjectName(QString::fromUtf8("sbLeastGt_420"));
+    sbLeastGt_420->setGeometry(QRect(741, 33, 81, 24));
+    sortButtons->addButton(sbLeastGt_420,1);
+    sbLeastTnt_420 = new QRadioButton(tab420);
+    sbLeastTnt_420->setObjectName(QString::fromUtf8("sbLeastTnt_420"));
+    sbLeastTnt_420->setGeometry(QRect(650, 33, 81, 24));
+    sortButtons->addButton(sbLeastTnt_420,2);
+    sortButtons->button(0)->setChecked(true);
 
     //scroll area for 420 tab
     scrollArea420 = new QScrollArea(tab420);
@@ -220,6 +239,10 @@ void MainWindow::setupUi(QMainWindow *MainWindow){
     scrollArea621->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     scrollArea621->setWidgetResizable(true);
     tabWidget->addTab(tab621, QString());
+
+    tab_3 = new QWidget();
+    tab_3->setObjectName(QString::fromUtf8("tab621"));
+    tabWidget->addTab(tab_3, QString());
     MainWindow->setCentralWidget(centralwidget);
 
     retranslateUi(MainWindow);
@@ -237,10 +260,16 @@ void MainWindow::retranslateUi(QMainWindow *MainWindow) const {
     aXlabel_420->setText(QCoreApplication::translate("setupUi", "Aligner X:", nullptr));
     aZlabel_420->setText(QCoreApplication::translate("setupUi", "Aligner Z:", nullptr));
     maxTntLabel_420->setText(QCoreApplication::translate("setupUi", "Max TNT:", nullptr));
+    sortByLabel_420->setText(QCoreApplication::translate("setupUi", "Sort by:", nullptr));
 
     calcButton_420->setText(QCoreApplication::translate("setupUi", "Calculate", nullptr));
     chunkLoadButton_420->setText(QCoreApplication::translate("setupUi", "Chunk Loading", nullptr));
     progButton_420->setText(QCoreApplication::translate("setupUi", "Program", nullptr));
+
+    sbClosest_420->setText(QCoreApplication::translate("setupUi", "dist*GT", nullptr));
+    sbLeastGt_420->setText(QCoreApplication::translate("setupUi", "least TNT", nullptr));
+    sbLeastTnt_420->setText(QCoreApplication::translate("setupUi", "least GT", nullptr));
+
     tabWidget->setTabText(tabWidget->indexOf(tab420), QCoreApplication::translate("setupUi", "420/420-69 FTL", nullptr));
 
 
@@ -255,13 +284,15 @@ void MainWindow::retranslateUi(QMainWindow *MainWindow) const {
     progButton_621->setText(QCoreApplication::translate("setupUi", "Program", nullptr));
     tabWidget->setTabText(tabWidget->indexOf(tab621), QCoreApplication::translate("setupUi", "621 FTL", nullptr));
 
-
-    tabWidget->setTabText(tabWidget->indexOf(tab_3), QCoreApplication::translate("setupUi", "Autoload FTL (coming soon)", nullptr));
+    tabWidget->setTabText(tabWidget->indexOf(tab_3), QCoreApplication::translate("setupUi", "Autoload FTL (coming soon\u2122)", nullptr));
 }
 
 //621: 186.34881785360997
 //420: 185.34881785360997
 void MainWindow::calculateftl420() {
+    auto start = std::chrono::high_resolution_clock::now();
+
+
     int maxT = this->maxTNT_420->text().toInt();
     double desX = this->destX_420->text().toDouble();
     double desZ = this->destZ_420->text().toDouble();
@@ -269,13 +300,14 @@ void MainWindow::calculateftl420() {
     int alZ = this->alignZ_420->text().toInt();
     if (maxT != 0.0 && desX != 0.0 && desZ != 0.0 && alX != NULL && alZ != NULL) {
         if(!destinations.empty()){
-            for(dest d : destinations){
+            for(const dest& d : destinations){
                 delete d.button;
             }
             destinations.clear();
         }
         destinations = pearl::calculateGenericFtl(185.34881785360997, 185.5F, maxT, desX, desZ, alX, alZ, 0.5100841893612624, 0);
-        std::cout << destinations.size() << std::endl;
+        destinations = pearl::bubbleSort(destinations,destinations.size(),sortButtons->checkedId());
+        std::cout << "Found " << destinations.size() << " destinations within 50 blocks of target" << std::endl;
         list= new QWidget();
         list->setObjectName(QString::fromUtf8("scrollAreaWidgetContents"));
         list->setGeometry(QRect(0, 0, 848, 479));
@@ -284,46 +316,44 @@ void MainWindow::calculateftl420() {
         radioButtons = new QButtonGroup(this);
         int i = 0;
         for(const dest& Dest : destinations){
-            //std::cout << Dest.formatString() << std::endl;
             addItem(Dest, list, i, verticalLayout_2);
             i++;
         }
-        radioButtons->button(0)->setChecked(true);
-        //destinations[0].button->setChecked(true);
-        //std::cout << verticalLayout_2->findChildren<QRadioButton*>("radioButton").size() << std::endl;
+        if(radioButtons->buttons().size() > 0){
+            radioButtons->button(0)->setChecked(true);
+        }
         scrollArea420->setWidget(list);
+        status = 1;
+        auto end = std::chrono::high_resolution_clock::now();
+        double time_taken = std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count();
+        std::cout << "finished in " << time_taken/1000000 << " milliseconds" << std::endl;
     }
-    status = 1;
+
+
 }
 
 void MainWindow::addItem(dest d, QWidget *widget, int o, QVBoxLayout *layout) {
-    //std::cout << "adding item" << std::endl;
     d.button = new QRadioButton(widget);
     d.button->setObjectName(QString::fromUtf8("radioButton"));
     d.button->setGeometry(QRect(0, 25 * o, 851, 24));
-    //std::cout << d.formatString() << std::endl;
     layout->addWidget(d.button);
     radioButtons->addButton(d.button,o);
     d.button->setText(QCoreApplication::translate("setupUi", const_cast<char*>(d.formatString().c_str()), nullptr));
-    //destinations.emplace_back(button);
 }
 
 void MainWindow::chunkLoad420(){
     if(status == 1 || status == 3){
-        std::cout << "chunk Loading" << std::endl;
         dest d = getPressed();
         std::vector<std::string> items;
         int i = 0;
         for(std::array<double,3> gt : d.GTs){
             int chunkX = gt[0]/16;
             int chunkZ = gt[2]/16;
-            std::cout << "Tick: " << i << "  Chunk: x:" << chunkX << " z:" << chunkZ << "  Pearl coords: x:" << gt[0] << " y:" << gt[1] << " z:" << gt[2] << std::endl;
             std::ostringstream ss;
             ss << "Tick: " << i << "  Chunk: x:" << chunkX << " z:" << chunkZ << "  Pearl coords: x:" << gt[0] << " y:" << gt[1] << " z:" << gt[2];
             items.emplace_back(ss.str());
             i++;
         }
-        std::cout << "displaying" << std::endl;
         displayInfo(items);
         status = 2;
     }
@@ -342,8 +372,7 @@ void MainWindow::prog420(){
  * @return returns the currently selected destination, if none are selected, returns the first one on the list.
  */
 dest MainWindow::getPressed(){
-    if(status == 2 || status == 3){
-        std::cout << "returning selected " << selected->quadrant << std::endl;
+    if(status == 2 || status == 3) {
         dest d = *selected;
         return d;
     } else {
@@ -369,7 +398,6 @@ void MainWindow::displayInfo(const std::vector<std::string>& v){
         lab->setText(QString::fromUtf8(s.c_str()));
         lab->setGeometry(QRect(0, 25 * i, 851, 24));
         verticalLayout_2->addWidget(lab);
-        //info.push_back(QLabel());
     }
     scrollArea420->setWidget(list);
 
