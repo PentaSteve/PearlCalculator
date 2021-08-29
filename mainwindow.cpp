@@ -3,7 +3,7 @@
 //
 
 #include <iostream>
-#include <QVBoxLayout>
+#include <QtWidgets/QVBoxLayout>
 #include <sstream>
 #include "mainwindow.h"
 #include <chrono>

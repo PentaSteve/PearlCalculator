@@ -1,5 +1,5 @@
 #include <iostream>
-#include <QApplication>
+#include <QtWidgets/QApplication>
 #include "mainwindow.h"
 using namespace Ui;
 

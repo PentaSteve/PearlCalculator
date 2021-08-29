@@ -7,7 +7,7 @@
 #include <string>
 #include <list>
 #include <array>
-#include <QRadioButton>
+#include <QtWidgets/QRadioButton>
 
 class dest {
 public:

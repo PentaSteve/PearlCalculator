@@ -20,14 +20,14 @@
 #include <QtWidgets/QTabWidget>
 #include <QtWidgets/QWidget>
 #include <QtWidgets/QScrollArea>
-#include <QSizePolicy>
+#include <QtWidgets/QSizePolicy>
 #include "pearl.h"
 #include "dest.h"
 #include <string>
 #include <list>
 #include <QtWidgets/QVBoxLayout>
 #include <sstream>
-#include <QButtonGroup>
+#include <QtWidgets/QButtonGroup>
 //#include "main.h"
 
 namespace Ui {
