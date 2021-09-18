@@ -21,6 +21,7 @@
 #include <QtWidgets/QWidget>
 #include <QtWidgets/QScrollArea>
 #include <QtWidgets/QSizePolicy>
+#include <QStyleFactory>
 #include "pearl.h"
 #include "dest.h"
 #include <string>
@@ -120,6 +121,7 @@ public:
     void addItem(dest d, QWidget *widget, int o, QVBoxLayout *layout);
     void displayInfo(const std::vector<std::string>& s);
     dest getPressed();
+
 };
 
 

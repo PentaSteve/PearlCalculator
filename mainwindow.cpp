@@ -20,7 +20,8 @@ void MainWindow::setupUi(QMainWindow *MainWindow){
     tabWidget = new QTabWidget(centralwidget);
     tabWidget->setObjectName(QString::fromUtf8("tabWidget"));
     tabWidget->setGeometry(QRect(0, 0, 861, 601));
-    //tabWidget->setSizePolicy();
+
+    qApp->setStyle(QStyleFactory::create("fusion"));
     QPalette palette;
     QBrush brush(QColor(255, 255, 255, 255));
     brush.setStyle(Qt::SolidPattern);
@@ -58,6 +59,7 @@ void MainWindow::setupUi(QMainWindow *MainWindow){
 #if QT_VERSION >= QT_VERSION_CHECK(5, 12, 0)
     palette.setBrush(QPalette::Active, QPalette::PlaceholderText, brush8);
 #endif
+
     palette.setBrush(QPalette::Inactive, QPalette::WindowText, brush);
     palette.setBrush(QPalette::Inactive, QPalette::Button, brush1);
     palette.setBrush(QPalette::Inactive, QPalette::Light, brush2);
@@ -94,13 +96,11 @@ void MainWindow::setupUi(QMainWindow *MainWindow){
 #if QT_VERSION >= QT_VERSION_CHECK(5, 12, 0)
     palette.setBrush(QPalette::Disabled, QPalette::PlaceholderText, brush8);
 #endif
-
-    tabWidget->setPalette(palette);
-    tabWidget->setAutoFillBackground(true);
+    qApp->setPalette(palette);
 
     // 420 FTL tab
     tab420 = new QWidget();
-    tab420->setObjectName(QString::fromUtf8("tab420"));
+    tab420->setObjectName(QString::fromUtf8("tab420"));;
 
     //labels for 420 tab
     dXlabel_420 = new QLabel(tab420);
@@ -173,6 +173,8 @@ void MainWindow::setupUi(QMainWindow *MainWindow){
     scrollArea420 = new QScrollArea(tab420);
     scrollArea420->setObjectName(QString::fromUtf8("scrollArea420"));
     scrollArea420->setGeometry(QRect(3, 62, 850, 481));
+
+
     scrollArea420->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
     scrollArea420->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     scrollArea420->setWidgetResizable(true);
