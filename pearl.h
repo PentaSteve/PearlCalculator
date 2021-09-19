@@ -13,6 +13,8 @@ namespace pearl {
     std::vector<dest> bubbleSort(std::vector<dest> list, int n, int type);
     std::vector<std::string> getBits(int r, int b, int q, int maxTnt);
     double getTntRatio(double angle, int quadrant);
+
+    double abs(double a);
 }
 int getQuadrant(double angle);
 #endif //PEARLCALCULATOR_PEARL_H

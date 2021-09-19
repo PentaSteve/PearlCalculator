@@ -301,8 +301,8 @@ void MainWindow::calculateftl420() {
     int alX = this->alignX_420->text().toInt();
     int alZ = this->alignZ_420->text().toInt();
     if (maxT != 0.0 && desX != 0.0 && desZ != 0.0 && alX != NULL && alZ != NULL) {
-        if(!destinations.empty()){
-            for(const dest& d : destinations){
+        if(!destinations.empty()) {
+            for (const dest &d : destinations) {
                 delete d.button;
             }
             destinations.clear();

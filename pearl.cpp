@@ -10,7 +10,7 @@ std::vector<dest> pearl::calculateGenericFtl(double pearlHeight, double tntHeigh
     double deltaAngle = ((double) 2) / maxTNT / 4;
     std::array<double,3> initL = {(double) (alignX+1), pearlHeight, (double) alignZ};
 
-
+    std::cout << "tan 10: " << tan(10) << std::endl;
     double angle = atan2(destC[0] - initL[0], destC[2] - initL[2]);
     int quadrant = getQuadrant(angle);
     double maxRatio = getTntRatio(angle+deltaAngle,quadrant);
@@ -27,7 +27,6 @@ std::vector<dest> pearl::calculateGenericFtl(double pearlHeight, double tntHeigh
         std::cout << "quadrant = 4" << std::endl;
         return dests;
     }
-
     std::array<double,3> firstE = getFirst(quadrant);
     std::array<double,3> secondE = getSecond(quadrant);
     for(int sec = ceil(maxRatio < 1 ? maxTNT : (1/maxRatio * maxTNT)-1); sec >= 0; sec--) {
@@ -41,6 +40,7 @@ std::vector<dest> pearl::calculateGenericFtl(double pearlHeight, double tntHeigh
             }
         }
     }
+
     return dests;
 }
 
@@ -178,13 +178,21 @@ double pythag(double a1, double b1, double a2, double b2){
 
 double pearl::getTntRatio(double angle, int quadrant){
     double pi = 3.1415926535897932;
-    double ratio = abs(tan(angle+(pi/4)));
+    double ratio = pearl::abs(tan(angle+(pi/4)));
     if (quadrant <= 1){
         return ratio;
     } else if (quadrant >= 2){
         return 1/ratio;
     } else {
         return ratio;
+    }
+}
+
+double pearl::abs(double a){
+    if(a < 0){
+        return a*-1;
+    } else {
+        return a;
     }
 }
 /***
