@@ -97,15 +97,42 @@ public:
     QPushButton *progButton_621;
 
     QWidget *tab_3;
+
+    QWidget *tabV360;
+
+    QLabel *dXlabel_V360;
+    QLabel *dZlabel_V360;
+    QLabel *aXlabel_V360;
+    QLabel *aZlabel_V360;
+    QLabel *sortByLabel_V360;
+    QLabel *searchRangeLabel_V360;
+
+    QLineEdit *destX_V360;
+    QLineEdit *destZ_V360;
+    QLineEdit *alignX_V360;
+    QLineEdit *alignZ_V360;
+    QLineEdit *searchRange_V360;
+
+
+    QPushButton *calcButton_V360;
+    QPushButton *chunkLoadButton_V360;
+    QPushButton *progButton_V360;
+
+    QRadioButton *sbClosest_V360;
+    QRadioButton *sbLeastGt_V360;
+    QRadioButton *sbLeastTnt_V360;
+
     std::vector<dest> destinations;
 
     QScrollArea *scrollArea621;
-
+    QScrollArea *scrollAreaV360;
     QWidget *list;
     //std::vector<*QLabel>& info;
     QVBoxLayout *verticalLayout_2;
     QButtonGroup *radioButtons;
 
+    QWidget *listV360;
+    QVBoxLayout *verticalLayout_2V360;
     QButtonGroup *sortButtons;
 
     dest *selected;
@@ -118,10 +145,15 @@ public:
     void calculateftl420();
     void chunkLoad420();
     void prog420();
+
+    void calculateftlV360();
+    void chunkLoadV360();
+    void progV360();
     void addItem(dest d, QWidget *widget, int o, QVBoxLayout *layout);
     void displayInfo(const std::vector<std::string>& s);
     dest getPressed();
 
+    void displayInfoV360(const std::vector<std::string> &v);
 };
 
 

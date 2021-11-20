@@ -1,6 +1,0 @@
-export PATH=/opt/mxe/usr/bin/:$PATH
-make clean
-qmake-w64 PearlCalculator.pro
-make -j4
-wine /home/jasonl/CLionProjects/PearlCalculator1/release/PearlCalculator.exe
-#cp ./release/PearlCalculator.exe /srv/http/random/PearlCalculator${1}.exe

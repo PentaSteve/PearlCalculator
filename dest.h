@@ -15,8 +15,9 @@ public:
     int redtnt;
     int bluetnt;
     int quadrant;
+    bool reachable;
     std::list<std::array<double,3>> GTs;
-    dest(double d, int bt, int rt, std::list<std::array<double,3>> gt, int q);
+    dest(double d, int bt, int rt, std::list<std::array<double,3>> gt, int q, bool reachable);
     std::string formatString();
     QRadioButton *button{};
 };

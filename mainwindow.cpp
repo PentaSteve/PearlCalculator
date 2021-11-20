@@ -240,11 +240,98 @@ void MainWindow::setupUi(QMainWindow *MainWindow){
     scrollArea621->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
     scrollArea621->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     scrollArea621->setWidgetResizable(true);
-    tabWidget->addTab(tab621, QString());
+    //tabWidget->addTab(tab621, QString());
 
+    //V360
+    tabV360 = new QWidget();
+    tabV360->setObjectName(QString::fromUtf8("tabV360"));;
+
+    //labels for V360 tab
+    dXlabel_V360 = new QLabel(tabV360);
+    dXlabel_V360->setObjectName(QString::fromUtf8("dXlabel_V360"));
+    dXlabel_V360->setGeometry(QRect(5, 5, 48, 18));
+    dZlabel_V360 = new QLabel(tabV360);
+    dZlabel_V360->setObjectName(QString::fromUtf8("dZlabel_V360"));
+    dZlabel_V360->setGeometry(QRect(185, 5, 48, 18));
+    aXlabel_V360 = new QLabel(tabV360);
+    aXlabel_V360->setObjectName(QString::fromUtf8("aXlabel_V360"));
+    aXlabel_V360->setGeometry(QRect(5, 35, 63, 18));
+    aZlabel_V360 = new QLabel(tabV360);
+    aZlabel_V360->setObjectName(QString::fromUtf8("aZlabel_V360"));
+    aZlabel_V360->setGeometry(QRect(185, 35, 63, 18));
+    searchRangeLabel_V360 = new QLabel(tabV360);
+    searchRangeLabel_V360->setObjectName(QString::fromUtf8("searchRangeLabel_V360"));
+    searchRangeLabel_V360->setGeometry(QRect(365, 35, 63, 18));
+    sortByLabel_V360 = new QLabel(tabV360);
+    sortByLabel_V360->setObjectName(QString::fromUtf8("sortByLabel_V360"));
+    sortByLabel_V360->setGeometry(QRect(508, 35, 51, 18));
+
+    //input boxes for V360 tab
+    destX_V360 = new QLineEdit(tabV360);
+    destX_V360->setObjectName(QString::fromUtf8("destX_V360"));
+    destX_V360->setGeometry(QRect(55, 2, 113, 26));
+    destZ_V360 = new QLineEdit(tabV360);
+    destZ_V360->setObjectName(QString::fromUtf8("destZ_V360"));
+    destZ_V360->setGeometry(QRect(235, 2, 113, 26));
+    alignX_V360 = new QLineEdit(tabV360);
+    alignX_V360->setObjectName(QString::fromUtf8("alignX_V360"));
+    alignX_V360->setGeometry(QRect(70, 32, 98, 26));
+    alignZ_V360 = new QLineEdit(tabV360);
+    alignZ_V360->setObjectName(QString::fromUtf8("alignZ_V360"));
+    alignZ_V360->setGeometry(QRect(250, 32, 98, 26));
+    searchRange_V360 = new QLineEdit(tabV360);
+    searchRange_V360->setObjectName(QString::fromUtf8("searchRange_V360"));
+    searchRange_V360->setGeometry(QRect(430, 32, 61, 26));
+
+    /*destX_V360->setText("-100041");
+    destZ_V360->setText("-29975");
+    alignX_V360->setText("-756");
+    alignZ_V360->setText("29");
+    searchRange_V360->setText("1");*/
+
+    //buttons for V360 tab
+    calcButton_V360 = new QPushButton(tabV360);
+    calcButton_V360->setObjectName(QString::fromUtf8("calcButton_V360"));
+    calcButton_V360->setGeometry(QRect(365, 2, 80, 26));
+    connect(calcButton_V360, &QPushButton::released, this, &MainWindow::calculateftlV360);
+    chunkLoadButton_V360 = new QPushButton(tabV360);
+    chunkLoadButton_V360->setObjectName(QString::fromUtf8("chunkLoadButton_V360"));
+    chunkLoadButton_V360->setGeometry(QRect(462, 2, 111, 26));
+    connect(chunkLoadButton_V360, &QPushButton::released, this, &MainWindow::chunkLoadV360);
+    progButton_V360 = new QPushButton(tabV360);
+    progButton_V360->setObjectName(QString::fromUtf8("progButton_V360"));
+    progButton_V360->setGeometry(QRect(590, 2, 81, 26));
+    connect(progButton_V360, &QPushButton::released, this, &MainWindow::progV360);
+
+    //sort by radio buttons for V360 tab
+    sortButtons = new QButtonGroup(this);
+    sbClosest_V360 = new QRadioButton(tabV360);
+    sbClosest_V360->setObjectName(QString::fromUtf8("sbClosest"));
+    sbClosest_V360->setGeometry(QRect(569, 33, 71, 24));
+    sortButtons->addButton(sbClosest_V360,0);
+    sbLeastGt_V360 = new QRadioButton(tabV360);
+    sbLeastGt_V360->setObjectName(QString::fromUtf8("sbLeastGt_V360"));
+    sbLeastGt_V360->setGeometry(QRect(741, 33, 81, 24));
+    sortButtons->addButton(sbLeastGt_V360,1);
+    sbLeastTnt_V360 = new QRadioButton(tabV360);
+    sbLeastTnt_V360->setObjectName(QString::fromUtf8("sbLeastTnt_V360"));
+    sbLeastTnt_V360->setGeometry(QRect(650, 33, 81, 24));
+    sortButtons->addButton(sbLeastTnt_V360,2);
+    sortButtons->button(0)->setChecked(true);
+
+    //scroll area for V360 tab
+    scrollAreaV360 = new QScrollArea(tabV360);
+    scrollAreaV360->setObjectName(QString::fromUtf8("scrollAreaV360"));
+    scrollAreaV360->setGeometry(QRect(3, 62, 850, 481));
+
+
+    scrollAreaV360->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+    scrollAreaV360->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    scrollAreaV360->setWidgetResizable(true);
+    tabWidget->addTab(tabV360, QString());
     tab_3 = new QWidget();
     tab_3->setObjectName(QString::fromUtf8("tab621"));
-    tabWidget->addTab(tab_3, QString());
+    //tabWidget->addTab(tab_3, QString());
     MainWindow->setCentralWidget(centralwidget);
 
     retranslateUi(MainWindow);
@@ -274,6 +361,23 @@ void MainWindow::retranslateUi(QMainWindow *MainWindow) const {
 
     tabWidget->setTabText(tabWidget->indexOf(tab420), QCoreApplication::translate("setupUi", "420/420-69 FTL", nullptr));
 
+
+    dXlabel_V360->setText(QCoreApplication::translate("setupUi", "Dest X:", nullptr));
+    dZlabel_V360->setText(QCoreApplication::translate("setupUi", "Dest Z:", nullptr));
+    aXlabel_V360->setText(QCoreApplication::translate("setupUi", "Aligner X:", nullptr));
+    aZlabel_V360->setText(QCoreApplication::translate("setupUi", "Aligner Z:", nullptr));
+    searchRangeLabel_V360->setText(QCoreApplication::translate("setupUi", "Range:", nullptr));
+    sortByLabel_V360->setText(QCoreApplication::translate("setupUi", "Sort by:", nullptr));
+
+    calcButton_V360->setText(QCoreApplication::translate("setupUi", "Calculate", nullptr));
+    chunkLoadButton_V360->setText(QCoreApplication::translate("setupUi", "Chunk Loading", nullptr));
+    progButton_V360->setText(QCoreApplication::translate("setupUi", "Program", nullptr));
+
+    sbClosest_V360->setText(QCoreApplication::translate("setupUi", "dist*GT", nullptr));
+    sbLeastGt_V360->setText(QCoreApplication::translate("setupUi", "least TNT", nullptr));
+    sbLeastTnt_V360->setText(QCoreApplication::translate("setupUi", "least GT", nullptr));
+
+    tabWidget->setTabText(tabWidget->indexOf(tabV360), QCoreApplication::translate("setupUi", "V360", nullptr));
 
     dXlabel_621->setText(QCoreApplication::translate("setupUi", "Dest X:", nullptr));
     dZlabel_621->setText(QCoreApplication::translate("setupUi", "Dest Z:", nullptr));
@@ -402,5 +506,94 @@ void MainWindow::displayInfo(const std::vector<std::string>& v){
         verticalLayout_2->addWidget(lab);
     }
     scrollArea420->setWidget(list);
+
+}
+
+
+void MainWindow::calculateftlV360() {
+    auto start = std::chrono::high_resolution_clock::now();
+
+
+    int maxT = 100000000;
+    int searchRadius = this->searchRange_V360->text().toInt();
+    double desX = this->destX_V360->text().toDouble();
+    double desZ = this->destZ_V360->text().toDouble();
+    double alX = this->alignX_V360->text().toInt()+290.8659577064391;
+    double alZ = this->alignZ_V360->text().toInt()-19.86470963359534;
+    if (this->searchRange_V360->text() != nullptr && this->destX_V360->text() != nullptr && this->destZ_V360->text() != nullptr && this->alignX_V360->text() != nullptr && this->alignZ_V360->text() != nullptr) {
+        if(!destinations.empty()) {
+            for (const dest &d : destinations) {
+                delete d.button;
+            }
+            destinations.clear();
+        }
+        destinations = pearl::calculateVoidFtl(maxT, desX, desZ, alX, alZ, 0, searchRadius);//pearl::calculateGenericFtl(185.34881785360997, 185.5F, maxT, desX, desZ, alX, alZ, 0.5100841893612624, 0);
+        destinations = pearl::bubbleSort(destinations,destinations.size(),sortButtons->checkedId());
+        std::cout << "Found " << destinations.size() << " destinations within " << searchRadius << " blocks of target" << std::endl;
+        list= new QWidget();
+        list->setObjectName(QString::fromUtf8("scrollAreaWidgetContents"));
+        list->setGeometry(QRect(0, 0, 848, 479));
+        verticalLayout_2 = new QVBoxLayout(list);
+        verticalLayout_2->setObjectName(QString::fromUtf8("verticalLayout_2"));
+        radioButtons = new QButtonGroup(this);
+        int i = 0;
+        for(const dest& Dest : destinations){
+            addItem(Dest, list, i, verticalLayout_2);
+            i++;
+        }
+        if(radioButtons->buttons().size() > 0){
+            radioButtons->button(0)->setChecked(true);
+        }
+        scrollAreaV360->setWidget(list);
+        status = 1;
+        auto end = std::chrono::high_resolution_clock::now();
+        double time_taken = std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count();
+        std::cout << "finished in " << time_taken/1000000 << " milliseconds" << std::endl;
+    }
+}
+
+void MainWindow::chunkLoadV360() {
+    if(status == 1 || status == 3){
+        dest d = getPressed();
+        std::vector<std::string> items;
+        int i = 0;
+
+        /*for(std::array<double,3> gt : d.GTs){
+            int chunkX = gt[0]/16;
+            int chunkZ = gt[2]/16;
+            std::ostringstream ss;
+            ss << "Tick: " << i << "  Chunk: x:" << chunkX << " z:" << chunkZ << "  Pearl coords: x:" << gt[0] << " y:" << gt[1] << " z:" << gt[2];
+            items.emplace_back(ss.str());
+            i++;
+        }
+        displayInfoV360(items);*/
+        status = 2;
+    }
+}
+
+void MainWindow::progV360(){
+    if(status == 1 || status == 2){
+        dest d = getPressed();
+        displayInfoV360(pearl::getV360Bits(d.redtnt,d.bluetnt,d.quadrant,109000000));
+    }
+    status = 3;
+}
+
+void MainWindow::displayInfoV360(const std::vector<std::string>& v){
+    //clear the list
+    listV360 = new QWidget();
+    listV360->setObjectName(QString::fromUtf8("scrollAreaWidgetContents"));
+    listV360->setGeometry(QRect(0, 0, 848, 479));
+    int i = 0;
+    verticalLayout_2V360 = new QVBoxLayout(listV360);
+    verticalLayout_2V360->setObjectName(QString::fromUtf8("verticalLayout_2"));
+
+    for(const std::string& s : v) {
+        auto *lab = new QLabel();
+        lab->setText(QString::fromUtf8(s.c_str()));
+        lab->setGeometry(QRect(0, 25 * i, 851, 24));
+        verticalLayout_2V360->addWidget(lab);
+    }
+    scrollAreaV360->setWidget(listV360);
 
 }

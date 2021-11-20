@@ -11,16 +11,20 @@
 #include <iostream>
 
 
-dest::dest(double d, int bt, int rt, std::list<std::array<double,3>> gt, int q) {
+dest::dest(double d, int bt, int rt, std::list<std::array<double,3>> gt, int q, bool reachable) {
     this->dist = d;
     this->redtnt = rt;
     this->bluetnt = bt;
     this->GTs = std::move(gt);
     this->quadrant = q;
+    this->reachable = reachable;
 }
 
 std::string dest::formatString(){
+    if(!reachable){
+        return "Destination is unreachable";
+    }
     std::ostringstream ss;
-    ss << "Distance: " << this->dist << " (Tick: " << this->GTs.size()-1 << ")  TNT: " << this->redtnt+this->bluetnt << " (Blue: " << this->bluetnt << ", Red: " << this->redtnt << ")";
+    ss << "Distance: " << this->dist << " (Tick: " << this->GTs.size()-1 << ")  TNT: " << this->redtnt+this->bluetnt << " (Blue: " << this->bluetnt << ", Red: " << this->redtnt << ")" << " quadrant: " << this->quadrant;
     return ss.str();
 }
