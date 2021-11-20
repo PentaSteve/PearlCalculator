@@ -420,6 +420,12 @@ std::array<int, 2> calculateNeededTnt(int gt, double destX, double destZ, double
     int tnt2 = (int) abs(Vz / accelZL);
 
     //std::cout << "tnt1: " << tnt1 << std::endl << "tnt2: " << tnt2 << std::endl << "Vx: " << Vx << std::endl << "Vz: " << Vz << std::endl << "accelX: " << accelXL << std::endl << "accelZ: " << accelZL << std::endl;
+    if(quad >= 2){
+        int temp = tnt1;
+        tnt1 = tnt2;
+        tnt2 = temp;
+    }
+
 
     std::array<int, 2> out = {tnt2+1, tnt1+1};
     return out;
