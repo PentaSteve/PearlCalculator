@@ -1,0 +1,24 @@
+/home/jasonl/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/203.7148.70/bin/cmake/linux/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" /home/jasonl/CLionProjects/PearlCalculator1
+-- The C compiler identification is GNU 11.1.0
+-- The CXX compiler identification is GNU 11.1.0
+-- Check for working C compiler: /usr/bin/cc
+-- Check for working C compiler: /usr/bin/cc - works
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Check for working CXX compiler: /usr/bin/c++
+-- Check for working CXX compiler: /usr/bin/c++ - works
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+CMake Warning at CMakeLists.txt:16 (message):
+  CMAKE_PREFIX_PATH is not defined, you may need to set it
+  (-DCMAKE_PREFIX_PATH="path/to/Qt/lib/cmake" or
+  -DCMAKE_PREFIX_PATH=/usr/include/{host}/qt{version}/ on Ubuntu)
+
+
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /home/jasonl/CLionProjects/PearlCalculator1

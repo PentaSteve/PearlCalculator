@@ -1,0 +1,4 @@
+/home/jasonl/CLionProjects/PearlCalculator1/CMakeFiles/rebuild_cache.dir
+/home/jasonl/CLionProjects/PearlCalculator1/CMakeFiles/edit_cache.dir
+/home/jasonl/CLionProjects/PearlCalculator1/CMakeFiles/PearlCalculator.dir
+/home/jasonl/CLionProjects/PearlCalculator1/CMakeFiles/PearlCalculator_autogen.dir
