@@ -16,7 +16,7 @@ namespace pearl {
     double getTntRatio(double angle, int quadrant);
     double abs(double a);
 
-    std::vector<std::string> getV360Bits(int r, int b, int q, int maxTnt);
+    std::vector<std::string> getV360Bits(int r, int b, int q, int wq, int maxTnt);
 
 
 }
@@ -24,7 +24,7 @@ int getQuadrant(double angle);
 #endif //PEARLCALCULATOR_PEARL_H
 
 
-
+int getWorldQuadrant(int sX, int sZ, int eX, int eZ);
 std::array<double,3> getTntAccel(double pearl[], std::array<double,3> tnt);
 std::array<double,3> getTntCoord(int dir, int alX, int alZ, double tY);
 std::array<double,3> getFirst(int quadrant);

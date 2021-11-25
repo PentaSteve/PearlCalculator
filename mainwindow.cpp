@@ -283,11 +283,11 @@ void MainWindow::setupUi(QMainWindow *MainWindow){
     searchRange_V360->setObjectName(QString::fromUtf8("searchRange_V360"));
     searchRange_V360->setGeometry(QRect(430, 32, 61, 26));
 
-    /*destX_V360->setText("-100041");
+    destX_V360->setText("-100041");
     destZ_V360->setText("-29975");
     alignX_V360->setText("-756");
     alignZ_V360->setText("29");
-    searchRange_V360->setText("1");*/
+    searchRange_V360->setText("1");
 
     //buttons for V360 tab
     calcButton_V360 = new QPushButton(tabV360);
@@ -483,7 +483,7 @@ dest MainWindow::getPressed(){
         return d;
     } else {
         selected = &destinations[radioButtons->checkedId()];
-        std::cout << selected->quadrant << std::endl;
+        //std::cout << selected->quadrant << std::endl;
         dest d = *selected;
         return d;
     }
@@ -511,7 +511,7 @@ void MainWindow::displayInfo(const std::vector<std::string>& v){
 
 
 void MainWindow::calculateftlV360() {
-    auto start = std::chrono::high_resolution_clock::now();
+
 
 
     int maxT = 100000000;
@@ -527,7 +527,9 @@ void MainWindow::calculateftlV360() {
             }
             destinations.clear();
         }
+        auto start = std::chrono::high_resolution_clock::now();
         destinations = pearl::calculateVoidFtl(maxT, desX, desZ, alX, alZ, 0, searchRadius);//pearl::calculateGenericFtl(185.34881785360997, 185.5F, maxT, desX, desZ, alX, alZ, 0.5100841893612624, 0);
+        auto end = std::chrono::high_resolution_clock::now();
         destinations = pearl::bubbleSort(destinations,destinations.size(),sortButtons->checkedId());
         std::cout << "Found " << destinations.size() << " destinations within " << searchRadius << " blocks of target" << std::endl;
         list= new QWidget();
@@ -546,7 +548,7 @@ void MainWindow::calculateftlV360() {
         }
         scrollAreaV360->setWidget(list);
         status = 1;
-        auto end = std::chrono::high_resolution_clock::now();
+
         double time_taken = std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count();
         std::cout << "finished in " << time_taken/1000000 << " milliseconds" << std::endl;
     }
@@ -557,7 +559,7 @@ void MainWindow::chunkLoadV360() {
         dest d = getPressed();
         std::vector<std::string> items;
         int i = 0;
-
+        items.emplace_back("It's a void cannon... why would you care about chunk loading?");
         /*for(std::array<double,3> gt : d.GTs){
             int chunkX = gt[0]/16;
             int chunkZ = gt[2]/16;
@@ -565,8 +567,8 @@ void MainWindow::chunkLoadV360() {
             ss << "Tick: " << i << "  Chunk: x:" << chunkX << " z:" << chunkZ << "  Pearl coords: x:" << gt[0] << " y:" << gt[1] << " z:" << gt[2];
             items.emplace_back(ss.str());
             i++;
-        }
-        displayInfoV360(items);*/
+        }*/
+        displayInfoV360(items);
         status = 2;
     }
 }
@@ -574,7 +576,7 @@ void MainWindow::chunkLoadV360() {
 void MainWindow::progV360(){
     if(status == 1 || status == 2){
         dest d = getPressed();
-        displayInfoV360(pearl::getV360Bits(d.redtnt,d.bluetnt,d.quadrant,109000000));
+        displayInfoV360(pearl::getV360Bits(d.redtnt,d.bluetnt,d.quadrant,d.worldQuadrant,109000000));
     }
     status = 3;
 }

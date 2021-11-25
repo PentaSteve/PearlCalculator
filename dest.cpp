@@ -11,12 +11,13 @@
 #include <iostream>
 
 
-dest::dest(double d, int bt, int rt, std::list<std::array<double,3>> gt, int q, bool reachable) {
+dest::dest(double d, int bt, int rt, std::list<std::array<double,3>> gt, int q, bool reachable, int wq) {
     this->dist = d;
     this->redtnt = rt;
     this->bluetnt = bt;
     this->GTs = std::move(gt);
     this->quadrant = q;
+    this->worldQuadrant = wq;
     this->reachable = reachable;
 }
 

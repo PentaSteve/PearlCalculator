@@ -7,10 +7,10 @@
 std::vector<dest> pearl::calculateGenericFtl(double pearlHeight, double tntHeight, int maxTNT, double destX, double destZ, int alignX, int alignZ, double initM, int sort) {
     std::vector<dest> dests;
     std::array<double,3> destC = {destX, 128, destZ};
-    double deltaAngle = ((double) 2) / maxTNT / 4;
+    double deltaAngle = ((double) 2) / maxTNT / 4;//atan2(50,sqrt(pow(destX-alignX,2)+pow(destZ-alignZ,2)));//
     std::array<double,3> initL = {(double) (alignX+1), pearlHeight, (double) alignZ};
 
-    std::cout << "tan 10: " << tan(10) << std::endl;
+    //std::cout << "tan 10: " << tan(10) << std::endl;
     double angle = atan2(destC[0] - initL[0], destC[2] - initL[2]);
     int quadrant = getQuadrant(angle);
     double maxRatio = getTntRatio(angle+deltaAngle,quadrant);
@@ -36,14 +36,14 @@ std::vector<dest> pearl::calculateGenericFtl(double pearlHeight, double tntHeigh
             vector = add(vector,{0,initM,0});
             std::list<std::array<double,3>> gameticks = getGt(initL, vector, destC);
             double d = pythag(gameticks.back()[0],gameticks.back()[2],destC[0],destC[2]);
-            if(d < 2500){
-                dests.emplace_back(sqrt(d),fir,sec,gameticks,quadrant,true);
+            if(d < 64){
+                dests.emplace_back(sqrt(d),fir,sec,gameticks,quadrant,true,0);
             }
         }
     }
     if(dests.empty()){
         std::list<std::array<double,3>> gameticks = {initL};
-        dests.emplace_back(0.0,0,0,gameticks,quadrant, false);
+        dests.emplace_back(0.0, 0, 0, gameticks, quadrant, false, 0);
     }
 
     return dests;
@@ -57,16 +57,24 @@ std::vector<dest> pearl::calculateVoidFtl(int maxTNT, double destX, double destZ
     std::cout << destX << ", " << destZ << std::endl;
     int count = 0;
     double pi = 3.1415926535897932;
+
+    //remove later, for star program calculation
+    /*destX = alignX+destX;
+    destZ = alignZ+destZ;*/
+
+
     std::cout << "tan 10: " << atan(3.31466323913)-pi << std::endl;
     double angle = atan2((destX - initL[0]), (destZ - initL[2]));
     std::cout << (destX - initL[0]) << ", " << (destZ - initL[2]) << std::endl;
     //double angle2 = atan((destX - initL[0])/(destZ - initL[2]))-pi;
     std::cout << angle << ", " << (destX - initL[0])/(destZ - initL[2]) << std::endl;
     int quadrant = getQuadrant(angle);
+    int worldQuadrant = getWorldQuadrant(alignX,alignZ,destX,destZ);
+    std::cout << worldQuadrant << std::endl;
     std::array<int, 2> exactTntVec = calculateNeededTnt(1,destX,destZ,alignX,alignZ,quadrant,angle);
     if(exactTntVec[0] > maxTNT || exactTntVec[1] > maxTNT){
         std::list<std::array<double,3>> gameticks = {initL};
-        dests.emplace_back(0,exactTntVec[0],exactTntVec[1],gameticks,quadrant,false);
+        dests.emplace_back(0, exactTntVec[0], exactTntVec[1], gameticks, quadrant, false, worldQuadrant);
     }
     int tntRange = floor(searchRange/sqrt(pow(getTntV360(quadrant,1)[0],2)+pow(getTntV360(quadrant,0)[0],2)));
     for(int sec = exactTntVec[0]+tntRange; sec >= exactTntVec[0]-tntRange; sec--) {
@@ -76,8 +84,8 @@ std::vector<dest> pearl::calculateVoidFtl(int maxTNT, double destX, double destZ
 
             std::list<std::array<double,3>> gameticks = {add(initL,vector)};
             double d = pythag(gameticks.back()[0],gameticks.back()[2],destX,destZ);
-            std::cout << vector[0]*0.99 << ", " << vector[2]*0.99 << ", " << fir << ", " << sec << ", " << atan2(gameticks.back()[0]-alignX,gameticks.back()[2]-alignZ) << std::endl;
-            dests.emplace_back(sqrt(d),fir,sec,gameticks,quadrant,true);
+            //std::cout << vector[0]*0.99 << ", " << vector[2]*0.99 << ", " << fir << ", " << sec << ", " << atan2(gameticks.back()[0]-alignX,gameticks.back()[2]-alignZ) << std::endl;
+            dests.emplace_back(sqrt(d), fir, sec, gameticks, quadrant, true, worldQuadrant);
             count++;
         }
     }
@@ -97,6 +105,28 @@ int getQuadrant(double angle) {
     } else if ((angle <= -2.356194490192345 && angle >= -3.141592653589793) || (angle >= 2.356194490192345 && angle <= 3.141592653589793)) {
         return 3;
     } else {
+        return 4;
+    }
+}
+
+//0 = np
+//1 = pp
+//2 = pn
+//3 = nn
+int getWorldQuadrant(int sX, int sZ, int eX, int eZ){
+    int dX = sX + eX;
+    int dZ = sZ + eZ;
+
+    if(dX < 0 && dZ >= 0){
+        return 0;
+    } else if(dX >= 0 && dZ >= 0) {
+        return 1;
+    } else if(dX >= 0 && dZ < 0) {
+        return 2;
+    } else if(dX < 0 && dZ < 0) {
+        return 3;
+    } else {
+        std::cout << "encountered a mathematically impossible error." << std::endl;
         return 4;
     }
 }
@@ -431,12 +461,46 @@ std::array<int, 2> calculateNeededTnt(int gt, double destX, double destZ, double
     return out;
 }
 
-std::vector<std::string> pearl::getV360Bits(int r, int b, int q, int maxTnt) {
+std::vector<std::string> pearl::getV360Bits(int r, int b, int q, int wq, int maxTnt) {
     int bits = pow(2, ceil(log(ceil(maxTnt-11)/286)/log(2)));
     std::ostringstream Bits;
+    Bits << "Binary (probably wrong): ";
     int base = 416;
-    Bits << "Binary: ";
     std::vector<std::string> list;
+    if(wq == 0){
+        Bits << "0001";
+        list.emplace_back("Star Program 1");
+    } else if(wq == 1){
+        Bits << "0010";
+        list.emplace_back("Star Program 2");
+    } else if(wq == 2){
+        Bits << "0100";
+        list.emplace_back("Star Program 3");
+    } else if(wq == 3){
+        Bits << "1000";
+        list.emplace_back("Star Program 4");
+    }
+
+    if(q == 0){
+        Bits << "1100";
+        list.emplace_back("D1");
+        list.emplace_back("D2");
+    } else if(q == 1){
+        Bits << "1001";
+        list.emplace_back("D1");
+        list.emplace_back("D4");
+    } else if(q == 2){
+        Bits << "0110";
+        list.emplace_back("D2");
+        list.emplace_back("D3");
+    } else if(q == 3){
+        Bits << "0011";
+        list.emplace_back("D3");
+        list.emplace_back("D4");
+    }
+    Bits << " ";
+    list.emplace_back(" ");
+    int bit = 0;
     for(int i = 0; i<2; i++){
         int tnt;
         if(i == 0){
@@ -457,9 +521,18 @@ std::vector<std::string> pearl::getV360Bits(int r, int b, int q, int maxTnt) {
                 std::ostringstream ss;
                 ss << "+" << j << " TNT";
                 list.emplace_back(ss.str());
-
+                bit++;
+                if(bit == 8){
+                    bit = 0;
+                    Bits << " ";
+                }
                 Bits << "1";
             } else {
+                bit++;
+                if(bit == 8){
+                    bit = 0;
+                    Bits << " ";
+                }
                 Bits << "0";
             }
         }
@@ -483,8 +556,18 @@ std::vector<std::string> pearl::getV360Bits(int r, int b, int q, int maxTnt) {
                 std::ostringstream ss;
                 ss << "+" << strings[k] << " TNT";
                 list.emplace_back(ss.str());
+                bit++;
+                if(bit == 8){
+                    bit = 0;
+                    Bits << " ";
+                }
                 Bits << "1";
             } else {
+                bit++;
+                if(bit == 8){
+                    bit = 0;
+                    Bits << " ";
+                }
                 Bits << "0";
             }
         }
